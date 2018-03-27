@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 19, 2018 alle 12:48
+-- Creato il: Mar 27, 2018 alle 08:46
 -- Versione del server: 10.1.25-MariaDB
 -- Versione PHP: 5.6.31
 
@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `tournament`
 --
+CREATE DATABASE IF NOT EXISTS `tournament` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `tournament`;
 
 -- --------------------------------------------------------
 
@@ -81,9 +83,9 @@ CREATE TABLE `torneo` (
   `ID` int(11) NOT NULL,
   `IDTipo` int(11) NOT NULL,
   `Nome` varchar(50) DEFAULT NULL,
-  `PwdAdmin` varchar(50) DEFAULT NULL,
   `DataCreazione` date DEFAULT NULL,
-  `NomeGioco` varchar(50) DEFAULT NULL
+  `NomeGioco` varchar(50) DEFAULT NULL,
+  `IDAdmin` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -93,16 +95,28 @@ CREATE TABLE `torneo` (
 --
 
 CREATE TABLE `utente` (
-  `nomeutente` varchar(20) NOT NULL,
-  `password` varchar(20) NOT NULL
+  `ID` int(11) NOT NULL,
+  `NomeUtente` varchar(50) NOT NULL,
+  `Password` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `utente`
 --
 
-INSERT INTO `utente` (`nomeutente`, `password`) VALUES
-('termosimone', 'ciaosonotommy');
+INSERT INTO `utente` (`ID`, `NomeUtente`, `Password`) VALUES
+(1, 'termosimone', 'ciaosonotommy');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `visualizza`
+--
+
+CREATE TABLE `visualizza` (
+  `IDUtente` int(11) NOT NULL,
+  `IDTorneo` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Indici per le tabelle scaricate
@@ -141,13 +155,21 @@ ALTER TABLE `tipo`
 --
 ALTER TABLE `torneo`
   ADD PRIMARY KEY (`ID`),
-  ADD KEY `IDTipo` (`IDTipo`);
+  ADD KEY `IDTipo` (`IDTipo`),
+  ADD KEY `IDAdmin` (`IDAdmin`);
 
 --
 -- Indici per le tabelle `utente`
 --
 ALTER TABLE `utente`
-  ADD PRIMARY KEY (`nomeutente`);
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indici per le tabelle `visualizza`
+--
+ALTER TABLE `visualizza`
+  ADD PRIMARY KEY (`IDUtente`,`IDTorneo`),
+  ADD KEY `IDTorneo` (`IDTorneo`);
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate
@@ -163,6 +185,11 @@ ALTER TABLE `tipo`
 --
 ALTER TABLE `torneo`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT per la tabella `utente`
+--
+ALTER TABLE `utente`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- Limiti per le tabelle scaricate
 --
@@ -191,7 +218,15 @@ ALTER TABLE `squadra`
 -- Limiti per la tabella `torneo`
 --
 ALTER TABLE `torneo`
-  ADD CONSTRAINT `torneo_ibfk_1` FOREIGN KEY (`IDTipo`) REFERENCES `tipo` (`ID`);
+  ADD CONSTRAINT `torneo_ibfk_1` FOREIGN KEY (`IDTipo`) REFERENCES `tipo` (`ID`),
+  ADD CONSTRAINT `torneo_ibfk_2` FOREIGN KEY (`IDAdmin`) REFERENCES `utente` (`ID`);
+
+--
+-- Limiti per la tabella `visualizza`
+--
+ALTER TABLE `visualizza`
+  ADD CONSTRAINT `visualizza_ibfk_1` FOREIGN KEY (`IDUtente`) REFERENCES `utente` (`ID`),
+  ADD CONSTRAINT `visualizza_ibfk_2` FOREIGN KEY (`IDTorneo`) REFERENCES `torneo` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
