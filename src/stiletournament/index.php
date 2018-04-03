@@ -18,8 +18,8 @@
 
                     <form action="pagine/home.php" method="post">
                         <input type="text" id="login" class="fadeIn second" name="user" placeholder="Nome Utente">
-                        <input type="text" id="password" class="fadeIn third" name="psw" placeholder="Password">
-                        <input type="text" id="passwordConferma" class="fadeIn third" name="pswConferma" placeholder="Conferma Password">
+                        <input type="password" id="password" class="fadeIn third" name="psw" placeholder="Password">
+                        <input type="password" id="passwordConferma" class="fadeIn third" name="pswConferma" placeholder="Conferma Password">
                         <input type="submit" class="fadeIn fourth" value="Crea">
                     </form>
 
@@ -40,7 +40,7 @@
 
                     <form action="pagine/home.php" method="post">
                         <input type="text" id="login" class="fadeIn second" name="user" placeholder="Nome Utente">
-                        <input type="text" id="password" class="fadeIn third" name="psw" placeholder="Password">
+                        <input type="password" id="password" class="fadeIn third" name="psw" placeholder="Password">
                         <input type="submit" class="fadeIn fourth" value="Accedi">
                     </form>
 
