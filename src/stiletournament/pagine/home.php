@@ -15,6 +15,7 @@
                 <br>
                 <h2>Ecco i tuoi tornei:</h2>
                 <br><br>
+                
                 <table id="table" align="center">
                     <tr>
                         <th>ID</th>
@@ -30,20 +31,17 @@
                         <td>27/03/18</td>
                         <td>4</td>
                         <td>Briscola</td>
-                        <!-- link per arrivare alla pagina di dettaglio del torneo -->
-                        <!-- viene passato l'id del torneo con il metodo GET 
-                        in modo da sapere di qiuale torneo caricare i dettagli-->
                         <td><a href="visualizza.php?id=1"><span class="glyphicon glyphicon-plus-sign"></span></a></td><!-- pagina visualizza torneo -->
                     </tr>
                 </table>
                 <br>
-                <a href="index.php">Nuovo torneo</a>
+                <a href="../index.php">Nuovo torneo</a>
                 <br>
-                <a href="index.php">Modifica torneo</a>
+                <a href="../index.php">Modifica torneo</a>
                 <br>
-                <a href="index.php">Elimina torneo</a>
+                <a href="../index.php">Elimina torneo</a>
                 <br>
-                <a href="index.php">Aggiungi spettatore</a>
+                <a href="../index.php">Aggiungi spettatore</a>
                 <br><br>
             </div>
         </div>

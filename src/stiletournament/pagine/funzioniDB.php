@@ -28,4 +28,3 @@ function visualizzaTornei() {
     disconnetti($conn);
 }
 ?>
-
