@@ -17,9 +17,9 @@
                     </div>
 
                     <form action="pagine/home.php" method="post">
-                        <input type="text" id="login" class="fadeIn second" name="user" placeholder="Nome Utente">
-                        <input type="password" id="password" class="fadeIn third" name="psw" placeholder="Password">
-                        <input type="password" id="passwordConferma" class="fadeIn third" name="pswConferma" placeholder="Conferma Password">
+                        <input type="text" id="login" class="fadeIn second" name="user" placeholder="Nome Utente" required>
+                        <input type="password" id="password" class="fadeIn third" name="psw" placeholder="Password" required>
+                        <input type="password" id="passwordConferma" class="fadeIn third" name="pswConferma" placeholder="Conferma Password" required>
                         <input type="submit" class="fadeIn fourth" value="Crea">
                     </form>
 
@@ -39,13 +39,12 @@
                     </div>
 
                     <form action="pagine/home.php" method="post">
-                        <input type="text" id="login" class="fadeIn second" name="user" placeholder="Nome Utente">
-                        <input type="password" id="password" class="fadeIn third" name="psw" placeholder="Password">
+                        <input type="text" id="login" class="fadeIn second" name="user" placeholder="Nome Utente" required>
+                        <input type="password" id="password" class="fadeIn third" name="psw" placeholder="Password" required>
                         <input type="submit" class="fadeIn fourth" value="Accedi">
                     </form>
 
                     <a href="?reg"> Crea nuovo account</a>
-
                     <br><br>
                 </div>
             </div>
