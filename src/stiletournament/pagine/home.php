@@ -55,7 +55,7 @@
                         <?php }
                         ?>
                         <h2>Ecco i tuoi tornei:</h2>
-                        <br><br>
+                        <br>
 
                         <table id="table" align="center">
                             <tr>
