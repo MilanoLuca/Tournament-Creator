@@ -13,11 +13,12 @@ and open the template in the editor.
         <?php
         session_start();
         include './connessione.php';
-        if(isset($_POST["aggiungi"])){
+        if(isset($_POST["aggiungi"])){  //se è stato cliccato il pulsante per l'immisisione viene inserito nel database un nuovo torneo con i dqati inseriti nel form la data corrente e come admin l'id con cui si è loggata la sessione
             
             $query = "INSERT INTO `torneo`( `IDTipo`, `Nome`, `DataCreazione`, `NomeGioco`, `IDAdmin`) VALUES ('".$_POST["tipo"]."','".$_POST["nome"]."',CURRENT_DATE,'".$_POST["gioco"]."','".$_SESSION["id"]."')";
             echo $query;
-            mysqli_query($connesione, $query);
+            mysqli_query($connesione, $query)
+                    or die("jadsgfkhwsa");
             unset($_POST["aggiungi"]);
             header("Location: ./MieiTornei.php");
         }
@@ -31,10 +32,10 @@ and open the template in the editor.
                     <td>Tipologia del Torneo</td>
                     <td><select name="tipo">
                             <?php
-                            $result = mysqli_query($connesione, "Select * from tipo");
+                            $result = mysqli_query($connesione, "Select * from tipo"); //vengono estratti tutti i tipi di torneo dalla tabella torei ed inseriti una combobox
                             while ($row = mysqli_fetch_array($result)) {
                                 ?>
-                            <option value="<?php echo $row["ID"]; ?>"><?php echo $row["Nome"]; ?>   </option>
+                            <option value="<?php echo $row["IDTipo"]; ?>"><?php echo $row["Nome"]; ?>   </option>
                                 <?php
                             }
                             ?>

@@ -8,13 +8,14 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <title>Login</title>
+        
     </head>
     <body>
         <?php
         session_start();
         ?>
         <h1>Login</h1>
-        <form name="login" method="POST" action="pagine/login.php">
+        <form name="login" method="POST" action="pagine/login.php"> <!-- from per Inserimento dei dati utente per il login-->
             <table>
                 <tr>    
                     <td>Username</td>
@@ -22,17 +23,21 @@ and open the template in the editor.
                 </tr>
                 <tr>    
                     <td>Password</td>
-                    <td><input type="password" name="pass" placeholder="Parola d'ordine"</td>
+                    <td><input type="password" name="pass" placeholder="Enter Password"</td>
                 </tr>
-                
+
             </table>
             <input type="submit" name="login" value="LOGIN">
+
         </form>
-        
-        
-        
-        
-        
-        
+        <br>
+
+        <?php
+        if (isset($_SESSION["errore"])) {       //se p settata la variabile di sessione "errore" viene visualizzata un messaggio di errore
+            echo "<div> ".$_SESSION["errore"]."</div>";
+            unset($_SESSION["errore"]);
+        }
+        ?>
+
     </body>
 </html>
