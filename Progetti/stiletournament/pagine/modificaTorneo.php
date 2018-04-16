@@ -11,7 +11,7 @@
                 <h2>Modifica Torneo</h2>
                 <br><br>
                 <div class="fadeIn first">
-                    <img src="http://www.antiracketliberaimpresa.it/wp-content/uploads/coppa.png" width="30%">
+                    <img src="../img/coppa.png" width="60%">
                 </div>
                 <br>
                 <form action="pagine/home.php" method="post">

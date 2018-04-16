@@ -13,7 +13,7 @@
                 <div id="formContent">
                     <br><br>
                     <div class="fadeIn first">
-                        <img src="http://www.antiracketliberaimpresa.it/wp-content/uploads/coppa.png" width="30%">
+                        <img src="../img/coppa.png" width="60%">
                     </div>
                     <h2>Sei sicuro di voler cancellare il torneo?</h2>
                     <br><br>
@@ -49,7 +49,7 @@
                             <td>27/03/18</td>
                             <td>4</td>
                             <td>Briscola</td>
-                            <td><a href="visualizza.php?id=1">+ info</a></td><!-- pagina visualizza torneo -->
+                            <td><a href="visualizza.php?id=1">+ info</a></td>
                         </tr>
                         <tr>
                             <td><input type="radio" name="selection"><br></td>
@@ -58,7 +58,7 @@
                             <td>09/04/18</td>
                             <td>4</td>
                             <td>Briscola</td>
-                            <td><a href="visualizza.php?id=1">+ info</a></td><!-- pagina visualizza torneo -->
+                            <td><a href="visualizza.php?id=2">+ info</a></td>
                         </tr>
                     </table>
                     <br><br>
