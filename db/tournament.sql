@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 27, 2018 alle 08:46
+-- Creato il: Apr 10, 2018 alle 08:42
 -- Versione del server: 10.1.25-MariaDB
 -- Versione PHP: 5.6.31
 
@@ -27,27 +27,15 @@ USE `tournament`;
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `gioca`
---
-
-CREATE TABLE `gioca` (
-  `NumeroSquadra` int(11) NOT NULL,
-  `IDTorneoSquadra` int(11) NOT NULL,
-  `NumeroPartita` int(11) NOT NULL,
-  `IDTorneoPartita` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Struttura della tabella `partita`
 --
 
 CREATE TABLE `partita` (
-  `Numero` int(11) NOT NULL,
+  `ID` int(11) NOT NULL,
+  `IDSquadra1` int(11) NOT NULL,
+  `IDSquadra2` int(11) NOT NULL,
   `IDTorneo` int(11) NOT NULL,
-  `NumeroVincitrice` int(11) NOT NULL,
-  `IDTorneoVincitrice` int(11) NOT NULL
+  `IDVincitrice` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -57,7 +45,7 @@ CREATE TABLE `partita` (
 --
 
 CREATE TABLE `squadra` (
-  `Numero` int(11) NOT NULL,
+  `ID` int(11) NOT NULL,
   `IDTorneo` int(11) NOT NULL,
   `Nome` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -72,6 +60,13 @@ CREATE TABLE `tipo` (
   `ID` int(11) NOT NULL,
   `Nome` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `tipo`
+--
+
+INSERT INTO `tipo` (`ID`, `Nome`) VALUES
+(1, 'Eliminazione diretta');
 
 -- --------------------------------------------------------
 
@@ -123,25 +118,20 @@ CREATE TABLE `visualizza` (
 --
 
 --
--- Indici per le tabelle `gioca`
---
-ALTER TABLE `gioca`
-  ADD PRIMARY KEY (`NumeroSquadra`,`IDTorneoSquadra`,`NumeroPartita`,`IDTorneoPartita`),
-  ADD KEY `NumeroPartita` (`NumeroPartita`,`IDTorneoPartita`);
-
---
 -- Indici per le tabelle `partita`
 --
 ALTER TABLE `partita`
-  ADD PRIMARY KEY (`Numero`,`IDTorneo`),
+  ADD PRIMARY KEY (`ID`),
   ADD KEY `IDTorneo` (`IDTorneo`),
-  ADD KEY `NumeroVincitrice` (`NumeroVincitrice`,`IDTorneoVincitrice`);
+  ADD KEY `NumeroVincitrice` (`IDVincitrice`),
+  ADD KEY `IDSquadra1` (`IDSquadra1`),
+  ADD KEY `IDSquadra2` (`IDSquadra2`);
 
 --
 -- Indici per le tabelle `squadra`
 --
 ALTER TABLE `squadra`
-  ADD PRIMARY KEY (`Numero`,`IDTorneo`),
+  ADD PRIMARY KEY (`ID`),
   ADD KEY `IDTorneo` (`IDTorneo`);
 
 --
@@ -179,7 +169,7 @@ ALTER TABLE `visualizza`
 -- AUTO_INCREMENT per la tabella `tipo`
 --
 ALTER TABLE `tipo`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT per la tabella `torneo`
 --
@@ -195,18 +185,13 @@ ALTER TABLE `utente`
 --
 
 --
--- Limiti per la tabella `gioca`
---
-ALTER TABLE `gioca`
-  ADD CONSTRAINT `gioca_ibfk_1` FOREIGN KEY (`NumeroSquadra`,`IDTorneoSquadra`) REFERENCES `squadra` (`Numero`, `IDTorneo`),
-  ADD CONSTRAINT `gioca_ibfk_2` FOREIGN KEY (`NumeroPartita`,`IDTorneoPartita`) REFERENCES `partita` (`Numero`, `IDTorneo`);
-
---
 -- Limiti per la tabella `partita`
 --
 ALTER TABLE `partita`
-  ADD CONSTRAINT `partita_ibfk_1` FOREIGN KEY (`IDTorneo`) REFERENCES `torneo` (`ID`),
-  ADD CONSTRAINT `partita_ibfk_2` FOREIGN KEY (`NumeroVincitrice`,`IDTorneoVincitrice`) REFERENCES `squadra` (`Numero`, `IDTorneo`);
+  ADD CONSTRAINT `partita_ibfk_1` FOREIGN KEY (`IDVincitrice`) REFERENCES `squadra` (`ID`),
+  ADD CONSTRAINT `partita_ibfk_2` FOREIGN KEY (`IDTorneo`) REFERENCES `torneo` (`ID`),
+  ADD CONSTRAINT `partita_ibfk_3` FOREIGN KEY (`IDSquadra1`) REFERENCES `squadra` (`ID`),
+  ADD CONSTRAINT `partita_ibfk_4` FOREIGN KEY (`IDSquadra2`) REFERENCES `squadra` (`ID`);
 
 --
 -- Limiti per la tabella `squadra`
