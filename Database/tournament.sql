@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Apr 16, 2018 alle 12:57
+-- Creato il: Mag 07, 2018 alle 12:28
 -- Versione del server: 10.1.25-MariaDB
 -- Versione PHP: 5.6.31
 
@@ -21,6 +21,21 @@ SET time_zone = "+00:00";
 --
 -- Database: `tournament`
 --
+CREATE DATABASE IF NOT EXISTS `tournament` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `tournament`;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `gioca`
+--
+
+CREATE TABLE `gioca` (
+  `FKSquadra` int(11) NOT NULL,
+  `IDTorneoSquadra` int(11) NOT NULL,
+  `FKPartita` int(11) NOT NULL,
+  `IDTorneoPartita` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -30,10 +45,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `partita` (
   `IDPartita` int(11) NOT NULL,
-  `IDSquadra1` int(11) NOT NULL,
-  `IDSquadra2` int(11) NOT NULL,
   `IDTorneo` int(11) NOT NULL,
-  `IDVincitrice` int(11) DEFAULT NULL
+  `IDVincitrice` int(11) NOT NULL,
+  `IDTorneoVincitrice` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -74,7 +88,7 @@ INSERT INTO `tipo` (`IDTipo`, `Nome`) VALUES
 
 CREATE TABLE `torneo` (
   `IDTorneo` int(11) NOT NULL,
-  `IDTipo` int(11) NOT NULL,
+  `FKTipo` int(11) NOT NULL,
   `Nome` varchar(50) DEFAULT NULL,
   `DataCreazione` date DEFAULT NULL,
   `NomeGioco` varchar(50) DEFAULT NULL,
@@ -85,8 +99,12 @@ CREATE TABLE `torneo` (
 -- Dump dei dati per la tabella `torneo`
 --
 
-INSERT INTO `torneo` (`IDTorneo`, `IDTipo`, `Nome`, `DataCreazione`, `NomeGioco`, `IDAdmin`) VALUES
-(5, 1, 'prova', '2018-04-16', 'sajhkd', 1);
+INSERT INTO `torneo` (`IDTorneo`, `FKTipo`, `Nome`, `DataCreazione`, `NomeGioco`, `IDAdmin`) VALUES
+(1, 1, 'Prova', '2018-03-27', 'calcio', 1),
+(11, 1, 'prova2', '2018-03-27', 'Ping Pong', 1),
+(13, 1, 'prova3', '2018-03-27', 'khdjg', 1),
+(14, 1, 'prova4', '2018-03-27', 'fdlogkdsjg', 1),
+(15, 1, 'prova5', '2018-04-09', 'calcio', 1);
 
 -- --------------------------------------------------------
 
@@ -123,20 +141,25 @@ CREATE TABLE `visualizza` (
 --
 
 --
+-- Indici per le tabelle `gioca`
+--
+ALTER TABLE `gioca`
+  ADD PRIMARY KEY (`FKSquadra`,`IDTorneoSquadra`,`FKPartita`,`IDTorneoPartita`),
+  ADD KEY `NumeroPartita` (`FKPartita`,`IDTorneoPartita`);
+
+--
 -- Indici per le tabelle `partita`
 --
 ALTER TABLE `partita`
-  ADD PRIMARY KEY (`IDPartita`),
+  ADD PRIMARY KEY (`IDPartita`,`IDTorneo`),
   ADD KEY `IDTorneo` (`IDTorneo`),
-  ADD KEY `NumeroVincitrice` (`IDVincitrice`),
-  ADD KEY `IDSquadra1` (`IDSquadra1`),
-  ADD KEY `IDSquadra2` (`IDSquadra2`);
+  ADD KEY `NumeroVincitrice` (`IDVincitrice`,`IDTorneoVincitrice`);
 
 --
 -- Indici per le tabelle `squadra`
 --
 ALTER TABLE `squadra`
-  ADD PRIMARY KEY (`IDSquadra`),
+  ADD PRIMARY KEY (`IDSquadra`,`IDTorneo`),
   ADD KEY `IDTorneo` (`IDTorneo`);
 
 --
@@ -150,7 +173,7 @@ ALTER TABLE `tipo`
 --
 ALTER TABLE `torneo`
   ADD PRIMARY KEY (`IDTorneo`),
-  ADD KEY `IDTipo` (`IDTipo`),
+  ADD KEY `IDTipo` (`FKTipo`),
   ADD KEY `IDAdmin` (`IDAdmin`);
 
 --
@@ -171,11 +194,6 @@ ALTER TABLE `visualizza`
 --
 
 --
--- AUTO_INCREMENT per la tabella `squadra`
---
-ALTER TABLE `squadra`
-  MODIFY `IDSquadra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
 -- AUTO_INCREMENT per la tabella `tipo`
 --
 ALTER TABLE `tipo`
@@ -184,7 +202,7 @@ ALTER TABLE `tipo`
 -- AUTO_INCREMENT per la tabella `torneo`
 --
 ALTER TABLE `torneo`
-  MODIFY `IDTorneo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `IDTorneo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT per la tabella `utente`
 --
@@ -195,26 +213,31 @@ ALTER TABLE `utente`
 --
 
 --
+-- Limiti per la tabella `gioca`
+--
+ALTER TABLE `gioca`
+  ADD CONSTRAINT `gioca_ibfk_1` FOREIGN KEY (`FKSquadra`,`IDTorneoSquadra`) REFERENCES `squadra` (`IDSquadra`, `IDTorneo`),
+  ADD CONSTRAINT `gioca_ibfk_2` FOREIGN KEY (`FKPartita`,`IDTorneoPartita`) REFERENCES `partita` (`IDPartita`, `IDTorneo`);
+
+--
 -- Limiti per la tabella `partita`
 --
 ALTER TABLE `partita`
-  ADD CONSTRAINT `partita_ibfk_1` FOREIGN KEY (`IDSquadra1`) REFERENCES `squadra` (`IDSquadra`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `partita_ibfk_2` FOREIGN KEY (`IDSquadra2`) REFERENCES `squadra` (`IDSquadra`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `partita_ibfk_3` FOREIGN KEY (`IDTorneo`) REFERENCES `torneo` (`IDTorneo`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `partita_ibfk_4` FOREIGN KEY (`IDVincitrice`) REFERENCES `squadra` (`IDSquadra`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `partita_ibfk_1` FOREIGN KEY (`IDTorneo`) REFERENCES `torneo` (`IDTorneo`),
+  ADD CONSTRAINT `partita_ibfk_2` FOREIGN KEY (`IDVincitrice`,`IDTorneoVincitrice`) REFERENCES `squadra` (`IDSquadra`, `IDTorneo`);
 
 --
 -- Limiti per la tabella `squadra`
 --
 ALTER TABLE `squadra`
-  ADD CONSTRAINT `squadra_ibfk_1` FOREIGN KEY (`IDTorneo`) REFERENCES `torneo` (`IDTorneo`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `squadra_ibfk_1` FOREIGN KEY (`IDTorneo`) REFERENCES `torneo` (`IDTorneo`);
 
 --
 -- Limiti per la tabella `torneo`
 --
 ALTER TABLE `torneo`
-  ADD CONSTRAINT `torneo_ibfk_1` FOREIGN KEY (`IDTipo`) REFERENCES `tipo` (`IDTipo`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `torneo_ibfk_2` FOREIGN KEY (`IDAdmin`) REFERENCES `utente` (`IDUtente`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `torneo_ibfk_1` FOREIGN KEY (`FKTipo`) REFERENCES `tipo` (`IDTipo`),
+  ADD CONSTRAINT `torneo_ibfk_2` FOREIGN KEY (`IDAdmin`) REFERENCES `utente` (`IDUtente`);
 
 --
 -- Limiti per la tabella `visualizza`
