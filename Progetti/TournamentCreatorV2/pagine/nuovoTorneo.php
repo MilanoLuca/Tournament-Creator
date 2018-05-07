@@ -15,7 +15,7 @@ and open the template in the editor.
         include './connessione.php';
         if(isset($_POST["aggiungi"])){  //se è stato cliccato il pulsante per l'immisisione viene inserito nel database un nuovo torneo con i dqati inseriti nel form la data corrente e come admin l'id con cui si è loggata la sessione
             
-            $query = "INSERT INTO `torneo`( `IDTipo`, `Nome`, `DataCreazione`, `NomeGioco`, `IDAdmin`) VALUES ('".$_POST["tipo"]."','".$_POST["nome"]."',CURRENT_DATE,'".$_POST["gioco"]."','".$_SESSION["id"]."')";
+            $query = "INSERT INTO `torneo`( `FKTipo`, `Nome`, `DataCreazione`, `NomeGioco`, `IDAdmin`) VALUES ('".$_POST["tipo"]."','".$_POST["nome"]."',CURRENT_DATE,'".$_POST["gioco"]."','".$_SESSION["id"]."')";
             echo $query;
             mysqli_query($connesione, $query)
                     or die("jadsgfkhwsa");
