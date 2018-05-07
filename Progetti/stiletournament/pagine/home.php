@@ -23,6 +23,22 @@
                     </form>
                 </div>
             </div>
+        <?php } else if (isset($_GET["logout"])) { ?>
+            <div class="wrapper fadeInDown">
+                <div id="formContent">
+                    <br><br>
+                    <div class="fadeIn first">
+                        <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />
+                    </div>
+                    <h2>Sei sicuro di voler fare il logout?</h2>
+                    <br><br>
+                    <form action="../index.php" method="post">
+                        <input type="submit" class="fadeIn second" value="SI">
+                        <input type="submit" class="fadeIn second" value="NO">
+                    </form>
+                </div>
+            </div>
+
         <?php } else {
             ?>
             <div class="wrapper fadeInDown">
@@ -63,7 +79,9 @@
                     </table>
                     <br><br>
                     <a href="nuovoTorneo.php">Nuovo torneo</a> | <a href="modificaTorneo.php">Modifica torneo</a> | <a href="?del">Elimina torneo</a>
-                    <br><br>
+                    <br><br><form action="?logout" method="post">
+                        <input type="submit" class="fadeIn second" value="logout">
+                    </form>
                 </div>
             </div>
             <?php
