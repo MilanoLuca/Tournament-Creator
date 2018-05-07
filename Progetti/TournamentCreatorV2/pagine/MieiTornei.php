@@ -28,7 +28,7 @@ FROM
     tipo,
     utente
 WHERE
-    torneo.IDTipo = tipo.IDTipo AND torneo.IDAdmin = '" . $_SESSION["id"] . "'";
+    torneo.FKTipo = tipo.IDTipo AND torneo.IDAdmin = '" . $_SESSION["id"] . "'";
 
         echo "I miei tornei<br> <br>";
         $result = mysqli_query($connesione, $query)
@@ -46,11 +46,11 @@ WHERE
             <?php
             while ($row = mysqli_fetch_array($result)) {
                 echo "<tr>
-                <td>".$row["Nome"]."</td>
-                <td>".$row["Tipo"]."</td>
-                <td>".$row["DataCreazione"]."</td>
-                <td>".$row["NomeGioco"]."</td>
-                <td><a href=\"gestioneTorneo.php?idTorneo=".$row["IDTorneo"]."\">Gestisci</a>  </td>";//link che manda alla pagina per la gestione del toreneo
+                <td>" . $row["Nome"] . "</td>
+                <td>" . $row["Tipo"] . "</td>
+                <td>" . $row["DataCreazione"] . "</td>
+                <td>" . $row["NomeGioco"] . "</td>
+                <td><a href=\"gestioneTorneo.php?idTorneo=" . $row["IDTorneo"] . "\">Gestisci</a>  </td>"; //link che manda alla pagina per la gestione del toreneo
                 //al link è concatenato l'id del torneo che sarà utilizato per selezionare il torneo specifico
                 echo "</tr>";
             }
