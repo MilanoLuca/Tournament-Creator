@@ -18,11 +18,11 @@
                         <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />
                     </div>
 
-                    <form action="pagine/signup.php" method="post">
-                        <input type="text" name="user" class="fadeIn second" placeholder="Enter Username" required>
-                        <input type="password" name="pass" class="fadeIn third" placeholder="Enter Password" required>
-                        <input type="password" name="pass" class="fadeIn third" placeholder="Enter Password" required>
-                        <input type="submit" name="login" class="fadeIn fourth" value="LOGIN">
+                    <form action="pagine/signin.php" method="post">
+                        <input type="text" name="user" class="fadeIn second" placeholder="Nome Utente" required>
+                        <input type="password" name="pass" class="fadeIn third" placeholder="Password" required>
+                        <input type="password" name="pass" class="fadeIn third" placeholder="Conferma Password" required>
+                        <input type="submit" name="login" class="fadeIn fourth" value="Registrati">
                     </form>
 
                     <a href="index.php">Vai all'accesso</a>
@@ -40,11 +40,10 @@
                         <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />
                     </div>
                     <form name="login" method="POST" action="pagine/login.php">
-                        <input type="text" name="user" class="fadeIn second" placeholder="Enter Username" required>
-                        <input type="password" name="pass" class="fadeIn third" placeholder="Enter Password" required>
-                        <input type="submit" name="login" class="fadeIn fourth" value="LOGIN">
+                        <input type="text" name="user" class="fadeIn second" placeholder="Nome Utente" required>
+                        <input type="password" name="pass" class="fadeIn third" placeholder="Password" required>
+                        <input type="submit" name="login" class="fadeIn fourth" value="Accedi">
                     </form>
-
                     <a href="?reg"> Crea nuovo account</a>
                     <br><br>
                 </div>
