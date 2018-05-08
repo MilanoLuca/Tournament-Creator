@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 07, 2018 alle 12:28
+-- Creato il: Mag 08, 2018 alle 09:23
 -- Versione del server: 10.1.25-MariaDB
 -- Versione PHP: 5.6.31
 
@@ -21,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `tournament`
 --
-CREATE DATABASE IF NOT EXISTS `tournament` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `tournament`;
 
 -- --------------------------------------------------------
 
@@ -61,6 +59,19 @@ CREATE TABLE `squadra` (
   `IDTorneo` int(11) NOT NULL,
   `Nome` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `squadra`
+--
+
+INSERT INTO `squadra` (`IDSquadra`, `IDTorneo`, `Nome`) VALUES
+(1, 17, '1'),
+(2, 18, 'sdf'),
+(3, 19, 'sdfsdf'),
+(4, 20, 'dgfh'),
+(5, 20, 'hjk'),
+(6, 20, 'wer'),
+(7, 20, 'iuo');
 
 -- --------------------------------------------------------
 
@@ -104,7 +115,14 @@ INSERT INTO `torneo` (`IDTorneo`, `FKTipo`, `Nome`, `DataCreazione`, `NomeGioco`
 (11, 1, 'prova2', '2018-03-27', 'Ping Pong', 1),
 (13, 1, 'prova3', '2018-03-27', 'khdjg', 1),
 (14, 1, 'prova4', '2018-03-27', 'fdlogkdsjg', 1),
-(15, 1, 'prova5', '2018-04-09', 'calcio', 1);
+(15, 1, 'prova5', '2018-04-09', 'calcio', 1),
+(16, 1, 'Torneo prova', '2018-05-08', 'scacchi', 1),
+(17, 1, 'Scacchi matti', '2018-05-08', 'scacchi', 2),
+(18, 1, 'dfg', '2018-05-08', 'dfg', 2),
+(19, 1, 'sdf', '2018-05-08', 'sdf', 2),
+(20, 1, 'asdasd', '2018-05-08', 'asd', 2),
+(21, 1, 'hjkjh', '2018-05-08', 'fgh', 2),
+(22, 1, 'dimiu', '2018-05-08', 'swer', 2);
 
 -- --------------------------------------------------------
 
@@ -123,7 +141,8 @@ CREATE TABLE `utente` (
 --
 
 INSERT INTO `utente` (`IDUtente`, `NomeUtente`, `Password`) VALUES
-(1, 'termosimone', 'ciaosonotommy');
+(1, 'termosimone', 'ciaosonotommy'),
+(2, 'user', 'user');
 
 -- --------------------------------------------------------
 
@@ -194,6 +213,11 @@ ALTER TABLE `visualizza`
 --
 
 --
+-- AUTO_INCREMENT per la tabella `squadra`
+--
+ALTER TABLE `squadra`
+  MODIFY `IDSquadra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
 -- AUTO_INCREMENT per la tabella `tipo`
 --
 ALTER TABLE `tipo`
@@ -202,12 +226,12 @@ ALTER TABLE `tipo`
 -- AUTO_INCREMENT per la tabella `torneo`
 --
 ALTER TABLE `torneo`
-  MODIFY `IDTorneo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `IDTorneo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT per la tabella `utente`
 --
 ALTER TABLE `utente`
-  MODIFY `IDUtente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `IDUtente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- Limiti per le tabelle scaricate
 --
@@ -216,15 +240,15 @@ ALTER TABLE `utente`
 -- Limiti per la tabella `gioca`
 --
 ALTER TABLE `gioca`
-  ADD CONSTRAINT `gioca_ibfk_1` FOREIGN KEY (`FKSquadra`,`IDTorneoSquadra`) REFERENCES `squadra` (`IDSquadra`, `IDTorneo`),
-  ADD CONSTRAINT `gioca_ibfk_2` FOREIGN KEY (`FKPartita`,`IDTorneoPartita`) REFERENCES `partita` (`IDPartita`, `IDTorneo`);
+  ADD CONSTRAINT `gioca_ibfk_1` FOREIGN KEY (`FKPartita`,`IDTorneoPartita`) REFERENCES `partita` (`IDPartita`, `IDTorneo`),
+  ADD CONSTRAINT `gioca_ibfk_2` FOREIGN KEY (`FKSquadra`,`IDTorneoSquadra`) REFERENCES `squadra` (`IDSquadra`, `IDTorneo`);
 
 --
 -- Limiti per la tabella `partita`
 --
 ALTER TABLE `partita`
-  ADD CONSTRAINT `partita_ibfk_1` FOREIGN KEY (`IDTorneo`) REFERENCES `torneo` (`IDTorneo`),
-  ADD CONSTRAINT `partita_ibfk_2` FOREIGN KEY (`IDVincitrice`,`IDTorneoVincitrice`) REFERENCES `squadra` (`IDSquadra`, `IDTorneo`);
+  ADD CONSTRAINT `partita_ibfk_1` FOREIGN KEY (`IDVincitrice`,`IDTorneoVincitrice`) REFERENCES `squadra` (`IDSquadra`, `IDTorneo`),
+  ADD CONSTRAINT `partita_ibfk_2` FOREIGN KEY (`IDTorneo`) REFERENCES `torneo` (`IDTorneo`);
 
 --
 -- Limiti per la tabella `squadra`

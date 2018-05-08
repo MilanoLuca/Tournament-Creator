@@ -28,7 +28,7 @@ FROM
     tipo,
     utente
 WHERE
-    torneo.FKTipo = tipo.IDTipo AND torneo.IDAdmin = '" . $_SESSION["id"] . "'";
+    torneo.FKTipo = tipo.IDTipo AND torneo.IDAdmin = " . $_SESSION["id"] ." AND utente.IDUtente = ".$_SESSION["id"];
 
         echo "I miei tornei<br> <br>";
         $result = mysqli_query($connesione, $query)

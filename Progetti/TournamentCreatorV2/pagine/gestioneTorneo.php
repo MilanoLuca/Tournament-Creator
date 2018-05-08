@@ -19,8 +19,21 @@ and open the template in the editor.
         }
         $idTorneo = $_SESSION["idTorneo"];
         $idUtente = $_SESSION["id"];
-        $inserimentoSquadre = "INSERT INTO `squadra`(`IDSquadra`, `IDTorneo`, `Nome`) VALUES ([value-1],[value-2],[value-3])";  //query di esempio per l'inserimento di una squadra NB Deve essere valorizzata
+        
+        //inserisce le squadre nel database se i nomi sono inseriti
+        if(isset($_POST["nomi"])){
+            $numSquadre = $_POST["numSquadre"];
+            for($i = 1; $i <= $numSquadre; $i++){
+                //query di esempio per l'inserimento di una squadra NB Deve essere valorizzata
+                $inserimentoSquadre = "INSERT INTO `squadra`(`IDTorneo`, `Nome`) VALUES ($idTorneo,'".$_POST["squadra".$i]."')";
+                mysqli_query($connesione, $inserimentoSquadre);
+            }
+           header("Location: MieiTornei.php");
+        }
+        
         $query = "SELECT * from torneo, squadra WHERE $idTorneo=squadra.IDTorneo"; //seleziona tutte le squadre del toreno
+        
+        
         $result = mysqli_query($connesione, $query);
         $row = mysqli_fetch_array($result);
         if (mysqli_num_rows($result) < 1) { //se il numero di squadre è < di 1 viene chiesto di inserirle
@@ -41,21 +54,26 @@ and open the template in the editor.
         </form>
 
         <!-- da controllare js-->
-        <form name="frmNomiSquadre" method="GET" action="#" onsubmit="return controllaNomi();">
+        <!--<form name="frmNomiSquadre" method="GET" action="#" onsubmit="return controllaNomi();">
             <input type="hidden" name="numSquadre" value="<?php echo $_POST["numero"]?>">
-            <?php
-                if (isset($_POST["conferma"])) { //dopo aver inserito il numero delle squadre che si vogliono inserire si stampa il form per l?inserimento di quelle
-                    $cont = 1;
-                    echo "<form method=\"POST\" action=\"gestioneTorneo.php?idTornero=$idTorneo\">"; //form che rimanda alla stessa pagina 
-                    //NB visto che la pagina vine ricaricat è necessario rinviare l'id del torneo
-                    while ($cont != $_POST["numero"] + 1) {   //stampa il numero di volte inserito le textbox per l'inserimento del nome dele squadre
-                        echo " Inserisci nome squadra $cont <input type=\"text\" name=\"squadra" . $cont . "\" placeholder=\"Squadra" . $cont . "\"><br><br>";
-                        $cont++;
-                    }
-                    echo '<input type="submit" name="nomi" value="conferma">';
+        </form>-->
+        <?php
+            if (isset($_POST["conferma"])) { //dopo aver inserito il numero delle squadre che si vogliono inserire si stampa il form per l?inserimento di quelle
+                $cont = 1;               
+                
+                echo "<form method=\"POST\" action=\"gestioneTorneo.php?idTornero=$idTorneo\">"; //form che rimanda alla stessa pagina 
+                echo '<input type="hidden" name="numSquadre" value="'.$_POST["numero"].'">';
+                //NB visto che la pagina vine ricaricat è necessario rinviare l'id del torneo
+                while ($cont != $_POST["numero"] + 1) {   //stampa il numero di volte inserito le textbox per l'inserimento del nome dele squadre
+                    echo " Inserisci nome squadra $cont <input type=\"text\" name=\"squadra" . $cont . "\" placeholder=\"Squadra" . $cont . "\"><br><br>";
+                    $cont++;
                 }
+                echo '<input type="submit" name="nomi" value="conferma">';
             }
-            ?>
-        </form>
+        }
+        else{
+            echo "Le squadre sono già state create";
+        }
+        ?>
     </body>
 </html>
