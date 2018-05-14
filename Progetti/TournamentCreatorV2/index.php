@@ -7,7 +7,6 @@
     <body>
         <?php
         session_start();
-        ?><?php
         if (isset($_GET["reg"])) {
             ?>
             <div class="wrapper fadeInDown">

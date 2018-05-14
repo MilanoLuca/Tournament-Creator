@@ -1,4 +1,5 @@
 <?php
+
 include './connessione.php'; //include la connessione al database per l'accesso alla tabella utenti
 session_start();
 

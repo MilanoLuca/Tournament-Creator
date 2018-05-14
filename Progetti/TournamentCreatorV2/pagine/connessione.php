@@ -1,4 +1,5 @@
 <?php
+
 $dbHost = "localhost";
 $dbName = "tournament";
 $dbUser = "root";
