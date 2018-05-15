@@ -22,14 +22,14 @@
                 <div class="fadeIn first">
                     <h1>Crea un nuovo torneo</h1><br>
 
-                    <form action="#" method="POST">
-                        <table>
+                    <form id="NuovoTorneo" action="#" method="POST">
+                        <table align="center">
                             <tr>
                                 <td>Tipologia del Torneo</td>
                                 <td><input type="text" name="nome" placeholder="Tipologia" value="Eliminazione diretta" readonly required> </td>
                             </tr>
                             <tr>
-                                <td>Nome del Toreno</td>
+                                <td>Nome del Torneo</td>
                                 <td><input type="text" name="nome" placeholder="Nome" required> </td>
                             </tr>
                             <tr>

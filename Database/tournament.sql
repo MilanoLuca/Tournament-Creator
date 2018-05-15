@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 08, 2018 alle 09:23
+-- Creato il: Mag 15, 2018 alle 09:26
 -- Versione del server: 10.1.25-MariaDB
 -- Versione PHP: 5.6.31
 
@@ -44,8 +44,8 @@ CREATE TABLE `gioca` (
 CREATE TABLE `partita` (
   `IDPartita` int(11) NOT NULL,
   `IDTorneo` int(11) NOT NULL,
-  `IDVincitrice` int(11) NOT NULL,
-  `IDTorneoVincitrice` int(11) NOT NULL
+  `IDVincitrice` int(11) DEFAULT NULL,
+  `IDTorneoVincitrice` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -213,6 +213,11 @@ ALTER TABLE `visualizza`
 --
 
 --
+-- AUTO_INCREMENT per la tabella `partita`
+--
+ALTER TABLE `partita`
+  MODIFY `IDPartita` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT per la tabella `squadra`
 --
 ALTER TABLE `squadra`
@@ -231,7 +236,7 @@ ALTER TABLE `torneo`
 -- AUTO_INCREMENT per la tabella `utente`
 --
 ALTER TABLE `utente`
-  MODIFY `IDUtente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `IDUtente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- Limiti per le tabelle scaricate
 --
@@ -240,8 +245,8 @@ ALTER TABLE `utente`
 -- Limiti per la tabella `gioca`
 --
 ALTER TABLE `gioca`
-  ADD CONSTRAINT `gioca_ibfk_1` FOREIGN KEY (`FKPartita`,`IDTorneoPartita`) REFERENCES `partita` (`IDPartita`, `IDTorneo`),
-  ADD CONSTRAINT `gioca_ibfk_2` FOREIGN KEY (`FKSquadra`,`IDTorneoSquadra`) REFERENCES `squadra` (`IDSquadra`, `IDTorneo`);
+  ADD CONSTRAINT `gioca_ibfk_2` FOREIGN KEY (`FKSquadra`,`IDTorneoSquadra`) REFERENCES `squadra` (`IDSquadra`, `IDTorneo`),
+  ADD CONSTRAINT `gioca_ibfk_3` FOREIGN KEY (`FKPartita`,`IDTorneoPartita`) REFERENCES `partita` (`IDPartita`, `IDTorneo`);
 
 --
 -- Limiti per la tabella `partita`
