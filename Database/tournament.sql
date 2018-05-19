@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 15, 2018 alle 09:26
+-- Creato il: Mag 19, 2018 alle 08:24
 -- Versione del server: 10.1.25-MariaDB
 -- Versione PHP: 5.6.31
 
@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `tournament`
 --
+CREATE DATABASE IF NOT EXISTS `tournament` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `tournament`;
 
 -- --------------------------------------------------------
 

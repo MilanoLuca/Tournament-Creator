@@ -41,16 +41,19 @@ and open the template in the editor.
 
             $result = mysqli_query($connesione, $query);
             $row = mysqli_fetch_array($result);
-            
-            
-                    if (mysqli_num_rows($result) < 1) { //se il numero di squadre è < di 1 viene chiesto di inserirle
-                        echo 'Inserisci le squadre';
-                        ?>
+            ?>
             <div id="formContent">
                 <div class="fadeIn first">
+                    <?php
+                    if (mysqli_num_rows($result) < 1) { //se il numero di squadre è < di 1 viene chiesto di inserirle
+                        echo '<h1>Inserisci le squadre</h1>';
+                        ?>
+                        
+            
                         <form method="POST" action="gestioneTorneo.php?idTornero=<?php $idToreno ?>"><!--form per l'inserimento delle squadre
                             NB visto che la pagina vine ricaricat è necessario rinviare l'id del torneo-->
-                            <table>
+                            <br>
+                            <table align="center">
                                 <tr><td>Numero di squadre</td>
                                     <td><select name="numero">
                                             <option value="4">4</option>
