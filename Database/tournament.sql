@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 19, 2018 alle 08:24
+-- Creato il: Mag 21, 2018 alle 12:35
 -- Versione del server: 10.1.25-MariaDB
 -- Versione PHP: 5.6.31
 
@@ -37,6 +37,16 @@ CREATE TABLE `gioca` (
   `IDTorneoPartita` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dump dei dati per la tabella `gioca`
+--
+
+INSERT INTO `gioca` (`FKSquadra`, `IDTorneoSquadra`, `FKPartita`, `IDTorneoPartita`) VALUES
+(1, 23, 8, 23),
+(2, 23, 8, 23),
+(3, 23, 9, 23),
+(4, 23, 9, 23);
+
 -- --------------------------------------------------------
 
 --
@@ -49,6 +59,14 @@ CREATE TABLE `partita` (
   `IDVincitrice` int(11) DEFAULT NULL,
   `IDTorneoVincitrice` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `partita`
+--
+
+INSERT INTO `partita` (`IDPartita`, `IDTorneo`, `IDVincitrice`, `IDTorneoVincitrice`) VALUES
+(8, 23, NULL, NULL),
+(9, 23, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -67,13 +85,10 @@ CREATE TABLE `squadra` (
 --
 
 INSERT INTO `squadra` (`IDSquadra`, `IDTorneo`, `Nome`) VALUES
-(1, 17, '1'),
-(2, 18, 'sdf'),
-(3, 19, 'sdfsdf'),
-(4, 20, 'dgfh'),
-(5, 20, 'hjk'),
-(6, 20, 'wer'),
-(7, 20, 'iuo');
+(1, 23, '1'),
+(2, 23, '2'),
+(3, 23, '3'),
+(4, 23, '4');
 
 -- --------------------------------------------------------
 
@@ -113,18 +128,7 @@ CREATE TABLE `torneo` (
 --
 
 INSERT INTO `torneo` (`IDTorneo`, `FKTipo`, `Nome`, `DataCreazione`, `NomeGioco`, `IDAdmin`) VALUES
-(1, 1, 'Prova', '2018-03-27', 'calcio', 1),
-(11, 1, 'prova2', '2018-03-27', 'Ping Pong', 1),
-(13, 1, 'prova3', '2018-03-27', 'khdjg', 1),
-(14, 1, 'prova4', '2018-03-27', 'fdlogkdsjg', 1),
-(15, 1, 'prova5', '2018-04-09', 'calcio', 1),
-(16, 1, 'Torneo prova', '2018-05-08', 'scacchi', 1),
-(17, 1, 'Scacchi matti', '2018-05-08', 'scacchi', 2),
-(18, 1, 'dfg', '2018-05-08', 'dfg', 2),
-(19, 1, 'sdf', '2018-05-08', 'sdf', 2),
-(20, 1, 'asdasd', '2018-05-08', 'asd', 2),
-(21, 1, 'hjkjh', '2018-05-08', 'fgh', 2),
-(22, 1, 'dimiu', '2018-05-08', 'swer', 2);
+(23, 1, 'Calcetto 5INB', '2018-05-21', 'Calcio', 2);
 
 -- --------------------------------------------------------
 
@@ -143,19 +147,7 @@ CREATE TABLE `utente` (
 --
 
 INSERT INTO `utente` (`IDUtente`, `NomeUtente`, `Password`) VALUES
-(1, 'termosimone', 'ciaosonotommy'),
 (2, 'user', 'user');
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `visualizza`
---
-
-CREATE TABLE `visualizza` (
-  `IDUtente` int(11) NOT NULL,
-  `IDTorneo` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Indici per le tabelle scaricate
@@ -204,13 +196,6 @@ ALTER TABLE `utente`
   ADD PRIMARY KEY (`IDUtente`);
 
 --
--- Indici per le tabelle `visualizza`
---
-ALTER TABLE `visualizza`
-  ADD PRIMARY KEY (`IDUtente`,`IDTorneo`),
-  ADD KEY `IDTorneo` (`IDTorneo`);
-
---
 -- AUTO_INCREMENT per le tabelle scaricate
 --
 
@@ -218,7 +203,7 @@ ALTER TABLE `visualizza`
 -- AUTO_INCREMENT per la tabella `partita`
 --
 ALTER TABLE `partita`
-  MODIFY `IDPartita` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IDPartita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT per la tabella `squadra`
 --
@@ -233,7 +218,7 @@ ALTER TABLE `tipo`
 -- AUTO_INCREMENT per la tabella `torneo`
 --
 ALTER TABLE `torneo`
-  MODIFY `IDTorneo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `IDTorneo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT per la tabella `utente`
 --
@@ -269,13 +254,6 @@ ALTER TABLE `squadra`
 ALTER TABLE `torneo`
   ADD CONSTRAINT `torneo_ibfk_1` FOREIGN KEY (`FKTipo`) REFERENCES `tipo` (`IDTipo`),
   ADD CONSTRAINT `torneo_ibfk_2` FOREIGN KEY (`IDAdmin`) REFERENCES `utente` (`IDUtente`);
-
---
--- Limiti per la tabella `visualizza`
---
-ALTER TABLE `visualizza`
-  ADD CONSTRAINT `visualizza_ibfk_1` FOREIGN KEY (`IDUtente`) REFERENCES `utente` (`IDUtente`),
-  ADD CONSTRAINT `visualizza_ibfk_2` FOREIGN KEY (`IDTorneo`) REFERENCES `torneo` (`IDTorneo`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

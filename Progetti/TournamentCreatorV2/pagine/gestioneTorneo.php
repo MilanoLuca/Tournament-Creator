@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <meta charset="UTF-8">
@@ -48,8 +42,8 @@ and open the template in the editor.
                     if (mysqli_num_rows($result) < 1) { //se il numero di squadre è < di 1 viene chiesto di inserirle
                         echo '<h1>Inserisci le squadre</h1>';
                         ?>
-                        
-            
+
+
                         <form method="POST" action="gestioneTorneo.php?idTornero=<?php $idToreno ?>"><!--form per l'inserimento delle squadre
                             NB visto che la pagina vine ricaricat è necessario rinviare l'id del torneo-->
                             <br>
