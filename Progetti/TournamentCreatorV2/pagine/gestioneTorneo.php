@@ -22,8 +22,7 @@
                 $i = 1;
                 while ($i != $numSquadre + 1) {
                     //query di esempio per l'inserimento di una squadra NB Deve essere valorizzata
-                    $inserimentoSquadre = "INSERT INTO squadra(IDSquadra,IDTorneo, Nome) VALUES ('$i','$idTorneo' , '" . $_POST["squadra" . $i] . "')"
-                            or die("5ina scemi");
+                    $inserimentoSquadre = "INSERT INTO squadra(IDSquadra,IDTorneo, Nome) VALUES ('$i','$idTorneo' , '" . $_POST["squadra" . $i] . "')";
                     mysqli_query($connesione, $inserimentoSquadre);
                     $i++;
                 }

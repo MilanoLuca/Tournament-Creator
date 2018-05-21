@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 21, 2018 alle 12:35
+-- Creato il: Mag 21, 2018 alle 16:01
 -- Versione del server: 10.1.25-MariaDB
 -- Versione PHP: 5.6.31
 
@@ -34,18 +34,23 @@ CREATE TABLE `gioca` (
   `FKSquadra` int(11) NOT NULL,
   `IDTorneoSquadra` int(11) NOT NULL,
   `FKPartita` int(11) NOT NULL,
-  `IDTorneoPartita` int(11) NOT NULL
+  `IDTorneoPartita` int(11) NOT NULL,
+  `Punteggio` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `gioca`
 --
 
-INSERT INTO `gioca` (`FKSquadra`, `IDTorneoSquadra`, `FKPartita`, `IDTorneoPartita`) VALUES
-(1, 23, 8, 23),
-(2, 23, 8, 23),
-(3, 23, 9, 23),
-(4, 23, 9, 23);
+INSERT INTO `gioca` (`FKSquadra`, `IDTorneoSquadra`, `FKPartita`, `IDTorneoPartita`, `Punteggio`) VALUES
+(1, 23, 8, 23, NULL),
+(1, 24, 10, 24, NULL),
+(2, 23, 8, 23, NULL),
+(2, 24, 10, 24, NULL),
+(3, 23, 9, 23, NULL),
+(3, 24, 11, 24, NULL),
+(4, 23, 9, 23, NULL),
+(4, 24, 11, 24, NULL);
 
 -- --------------------------------------------------------
 
@@ -66,7 +71,9 @@ CREATE TABLE `partita` (
 
 INSERT INTO `partita` (`IDPartita`, `IDTorneo`, `IDVincitrice`, `IDTorneoVincitrice`) VALUES
 (8, 23, NULL, NULL),
-(9, 23, NULL, NULL);
+(9, 23, NULL, NULL),
+(10, 24, NULL, NULL),
+(11, 24, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -86,9 +93,13 @@ CREATE TABLE `squadra` (
 
 INSERT INTO `squadra` (`IDSquadra`, `IDTorneo`, `Nome`) VALUES
 (1, 23, '1'),
+(1, 24, 'sdrht'),
 (2, 23, '2'),
+(2, 24, 'szdfg'),
 (3, 23, '3'),
-(4, 23, '4');
+(3, 24, 'aedrfg'),
+(4, 23, '4'),
+(4, 24, 'azsdrgt');
 
 -- --------------------------------------------------------
 
@@ -128,7 +139,9 @@ CREATE TABLE `torneo` (
 --
 
 INSERT INTO `torneo` (`IDTorneo`, `FKTipo`, `Nome`, `DataCreazione`, `NomeGioco`, `IDAdmin`) VALUES
-(23, 1, 'Calcetto 5INB', '2018-05-21', 'Calcio', 2);
+(23, 1, 'Calcetto 5INB', '2018-05-21', 'Calcio', 2),
+(24, 1, 'sfghdsfghdfgh', '2018-05-21', 'dffhgdfgdhdgh', 2),
+(25, 1, 'rtyhrdh', '2018-05-21', 'dfghfdgh', 2);
 
 -- --------------------------------------------------------
 
@@ -203,7 +216,7 @@ ALTER TABLE `utente`
 -- AUTO_INCREMENT per la tabella `partita`
 --
 ALTER TABLE `partita`
-  MODIFY `IDPartita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `IDPartita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT per la tabella `squadra`
 --
@@ -218,7 +231,7 @@ ALTER TABLE `tipo`
 -- AUTO_INCREMENT per la tabella `torneo`
 --
 ALTER TABLE `torneo`
-  MODIFY `IDTorneo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `IDTorneo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT per la tabella `utente`
 --

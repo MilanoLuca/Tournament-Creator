@@ -20,7 +20,7 @@
                      * LISTA DELLE COSE DA FARE
                      * 
                      * - se non c'e nessuna partita creare partite distribuendo casualmente gli id  le squadre
-                     * - se esistono già delle partite stampare solamente quelle a cui manca idvincitore
+                     * - se esistono ancora delle partite a cui manca idvincitrice, stampare tutte le partite con il relativo punteggio se assegnato (e link per assegnare i punteggi)
                      * - quando tutte le partite hanno un vincitore creare le partite successive utilizzando gli id dei vincitori come nuovi id delle squadre
                      * 
                      */
@@ -45,7 +45,6 @@
                         for ($i = 0; $i < count($squadre); $i += 2) {
                             //creo una nuova partita
                             $query = "INSERT INTO partita (IDTorneo) VALUES (" . $_SESSION["idTorneo"] . ");";
-                            echo $query;
                             mysqli_query($connesione, $query)
                                     or die("Query creazione partite non è andata a buon fine");
                             //visto che IDPartita è auto increment 
@@ -65,12 +64,32 @@
                                     or die("Query inserimento squadra fallito");
                         }
                     } else {
-                        //se esistono già delle partite stampare solamente quelle a cui manca idvincitore
-                        //queri non funziona, da modificare
-                        $query = "SELECT * FROM partita, squadra s1, squadra s2, gioca g1, gioca g2 WHERE partita.IDPartita = g1.FKPartita AND g1.FKSquadra = s1.IDSquadra AND partita.IDPartita = g2.FKPartita AND g2.FKSquadra = s2.IDSquadra AND partita.IDVincitrice IS NULL AND partita.IDTorneo = 23;";
-
                         echo "<br>Partite<br><br>";
+                        //se esistono ancora delle partite a cui manca idvincitrice, 
+                        //stampare tutte le partite con il relativo punteggio se assegnato (e link per assegnare i punteggi)
+                        $query = "SELECT partita.IDPartita, s1.Nome, g1.Punteggio "
+                               . "FROM partita, gioca g1, squadra s1 "
+                               . "WHERE partita.IDPartita=g1.FKPartita AND "
+                                     . "s1.IDSquadra=g1.FKSquadra AND "
+                                     . "s1.IDTorneo=23 AND "
+                                     . "partita.IDTorneo=" . $_SESSION["idTorneo"] . ";";
                         
+                        $result = mysqli_query($connesione, $query);
+                        //per ogni partita creo un array del tipo: IDPartita, squadra1, punteggio1, squadra2, punteggio2
+                        
+                        
+                        $query = "SELECT partita.IDPartita FROM partita WHERE partita.IDVincitrice IS NULL AND partita.IDTorneo=" . $_SESSION["idTorneo"] . ";";
+                        $result = mysqli_query($connesione, $query);
+
+                        //mysqli_num_rows conta le righe della tabella risultante
+                        if (mysqli_num_rows($result) == 0) {
+                            //visualizzo il pulsante per passare alla prossima fase del torneo
+                            ?>
+                            <form name="prossimaFase" action="" method="POST">
+                                <input type="submit" name="prossimaFase" value="Passa alla fase successiva">
+                            </form>
+                            <?php
+                        }
                     }
                     ?>
                 </div>
