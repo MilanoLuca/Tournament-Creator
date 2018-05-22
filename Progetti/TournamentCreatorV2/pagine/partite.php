@@ -3,6 +3,9 @@
         <meta charset="UTF-8">
         <title>Partite</title>
         <link rel="stylesheet" href="../css/style.css">
+        <?php 
+            
+        ?>
     </head>
     <body>
         <div class="wrapper fadeInDown">
@@ -55,7 +58,7 @@
                                     . "VALUES (" . $squadre[$i]["ID"] . "," . $_SESSION["idTorneo"] . ",$idPartita," . $_SESSION["idTorneo"] . ");";
 
                             $querySquadra2 = "INSERT INTO gioca(FKSquadra, IDTorneoSquadra, FKPartita, IDTorneoPartita) "
-                                    . "VALUES (" . $squadre[$i + 1]["ID"] . "," . $_SESSION["idTorneo"] . ",$idPartita," . $_SESSION["idTorneo"] . ");";
+                                    . "VALUES (" . $squadre[$i+1]["ID"] . "," . $_SESSION["idTorneo"] . ",$idPartita," . $_SESSION["idTorneo"] . ");";
 
                             //combino le squadre
                             mysqli_query($connesione, $querySquadra1)
@@ -63,34 +66,126 @@
                             mysqli_query($connesione, $querySquadra2)
                                     or die("Query inserimento squadra fallito");
                         }
-                    } else {
-                        echo "<br>Partite<br><br>";
-                        //se esistono ancora delle partite a cui manca idvincitrice, 
-                        //stampare tutte le partite con il relativo punteggio se assegnato (e link per assegnare i punteggi)
-                        $query = "SELECT partita.IDPartita, s1.Nome, g1.Punteggio "
-                               . "FROM partita, gioca g1, squadra s1 "
-                               . "WHERE partita.IDPartita=g1.FKPartita AND "
-                                     . "s1.IDSquadra=g1.FKSquadra AND "
-                                     . "s1.IDTorneo=23 AND "
-                                     . "partita.IDTorneo=" . $_SESSION["idTorneo"] . ";";
-                        
-                        $result = mysqli_query($connesione, $query);
-                        //per ogni partita creo un array del tipo: IDPartita, squadra1, punteggio1, squadra2, punteggio2
-                        
-                        
-                        $query = "SELECT partita.IDPartita FROM partita WHERE partita.IDVincitrice IS NULL AND partita.IDTorneo=" . $_SESSION["idTorneo"] . ";";
-                        $result = mysqli_query($connesione, $query);
+                    } 
+                    
+                    //visualizzazione partite
+                    echo "<br>Partite<br><br>";
+                    //se esistono ancora delle partite a cui manca idvincitrice, 
+                    //stampare tutte le partite con il relativo punteggio se assegnato (e link per assegnare i punteggi)
+                    $query = "SELECT partita.IDPartita, s1.Nome, g1.Punteggio "
+                           . "FROM partita, gioca g1, squadra s1 "
+                           . "WHERE partita.IDPartita=g1.FKPartita AND "
+                                 . "s1.IDSquadra=g1.FKSquadra AND "
+                                 . "s1.IDTorneo=" . $_SESSION["idTorneo"] . " AND "
+                                 . "partita.IDTorneo=" . $_SESSION["idTorneo"] . ";";
 
-                        //mysqli_num_rows conta le righe della tabella risultante
-                        if (mysqli_num_rows($result) == 0) {
-                            //visualizzo il pulsante per passare alla prossima fase del torneo
-                            ?>
-                            <form name="prossimaFase" action="" method="POST">
-                                <input type="submit" name="prossimaFase" value="Passa alla fase successiva">
-                            </form>
-                            <?php
-                        }
+                    $result = mysqli_query($connesione, $query);
+                    $arrayPunteggi = array();
+                    $i = 0;
+                    //copio la tabella risultante dalla query in un array
+                    while($row = mysqli_fetch_array($result)){
+                        $arrayPunteggi[$i] = array("IDPartita" => $row["IDPartita"],
+                                               "Nome" => $row["Nome"],
+                                               "Punteggio" => $row["Punteggio"]);
+                        $i++;
                     }
+                    //per ogni partita creo un array del tipo: IDPartita, Squadra1, Punteggio1, Squadra2, Punteggio2
+                    $partite = array();
+                    $i = 0;
+                    $k = 0;
+                    $lunghezza = count($arrayPunteggi);
+                    while($i < $lunghezza){
+                        if(isset($arrayPunteggi[$i])){
+                            
+                            $j = 0;
+                            $trovato = FALSE;
+                            while ($j < $lunghezza && !$trovato){
+                                if(isset($arrayPunteggi[$j])){
+                                    if($arrayPunteggi[$i]["IDPartita"] == $arrayPunteggi[$j]["IDPartita"] &&
+                                       $arrayPunteggi[$i]["Nome"] != $arrayPunteggi[$j]["Nome"]) {
+                                        $trovato = TRUE;
+                                        $partite[$k] = array("IDPartita" => $arrayPunteggi[$i]["IDPartita"],
+                                                         "Squadra1" => $arrayPunteggi[$i]["Nome"],
+                                                         "Punteggio1" => $arrayPunteggi[$i]["Punteggio"],
+                                                         "Squadra2" => $arrayPunteggi[$j]["Nome"],
+                                                         "Punteggio2" => $arrayPunteggi[$j]["Punteggio"]);
+                                        
+                                        
+                                        if($partite[$k]["Punteggio1"] == NULL){
+                                            $partite[$k]["PartitaConclusa"] = FALSE;
+                                        }
+                                        else{
+                                            $partite[$k]["PartitaConclusa"] = TRUE;
+                                        }
+                                            
+                                        
+                                        unset($arrayPunteggi[$i]);
+                                        unset($arrayPunteggi[$j]);
+                                        $k++;
+                                    }
+                                }
+                                $j++;
+                            }
+                            
+                        }
+                        $i++;
+                    }
+                    
+                    //stampo partite in una tabella con ordine Squadra1-Squadra2 Punteggio1-Punteggo2
+                    echo '<table border=1>'
+                       . '<tr>'
+                            . '<th>Partita</th>'
+                            . '<th>Punteggio</th>'
+                            . '<th>Modifica</th>'
+                       . '</tr>';
+                    foreach ($partite as $partita){
+                        ?>
+                        
+                    <tr>
+                        <td><?php echo $partita["Squadra1"] . ' - ' . $partita["Squadra2"];?></td>
+                        <td>
+                            <?php 
+                                if($partita["PartitaConclusa"]){
+                                    echo $partita["Punteggio1"] . ' - ' . $partita["Punteggio2"];
+                                }
+                                else{
+                                    //punteggio non assegnato
+                                    echo 'N/A';
+                                }
+                            ?>
+                        </td>
+                        <td>
+                            <a href="punteggio.php?IDPartita=<?php echo $partita["IDPartita"] ?>">
+                                <?php
+                                    if($partita["PartitaConclusa"]){
+                                        echo 'Modifica punteggio';
+                                    }
+                                    else{
+                                        echo 'Assegna punteggio';
+                                    }
+                                ?>
+                            </a>
+                        </td>
+                    </tr>
+                    
+                        <?php
+                    }
+                    echo '</table>';
+                    
+                    //pulsante prossima fase
+                    $query = "SELECT partita.IDPartita FROM partita WHERE partita.IDVincitrice IS NULL AND partita.IDTorneo=" . $_SESSION["idTorneo"] . ";";
+                    $result = mysqli_query($connesione, $query);
+
+                    //mysqli_num_rows conta le righe della tabella risultante
+                    if (mysqli_num_rows($result) == 0) {
+                        //visualizzo il pulsante per passare alla prossima fase del torneo
+                        ?>
+                        <form name="prossimaFase" action="" method="POST">
+                            <input type="submit" name="prossimaFase" value="Passa alla fase successiva">
+                        </form>
+                        <?php
+                    }
+                        
                     ?>
                 </div>
             </div>
