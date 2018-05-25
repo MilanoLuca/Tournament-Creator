@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 21, 2018 alle 16:01
+-- Creato il: Mag 25, 2018 alle 11:42
 -- Versione del server: 10.1.25-MariaDB
 -- Versione PHP: 5.6.31
 
@@ -43,14 +43,10 @@ CREATE TABLE `gioca` (
 --
 
 INSERT INTO `gioca` (`FKSquadra`, `IDTorneoSquadra`, `FKPartita`, `IDTorneoPartita`, `Punteggio`) VALUES
-(1, 23, 8, 23, NULL),
-(1, 24, 10, 24, NULL),
-(2, 23, 8, 23, NULL),
-(2, 24, 10, 24, NULL),
-(3, 23, 9, 23, NULL),
-(3, 24, 11, 24, NULL),
-(4, 23, 9, 23, NULL),
-(4, 24, 11, 24, NULL);
+(1, 31, 28, 31, NULL),
+(2, 31, 28, 31, NULL),
+(3, 31, 29, 31, NULL),
+(4, 31, 29, 31, NULL);
 
 -- --------------------------------------------------------
 
@@ -70,10 +66,8 @@ CREATE TABLE `partita` (
 --
 
 INSERT INTO `partita` (`IDPartita`, `IDTorneo`, `IDVincitrice`, `IDTorneoVincitrice`) VALUES
-(8, 23, NULL, NULL),
-(9, 23, NULL, NULL),
-(10, 24, NULL, NULL),
-(11, 24, NULL, NULL);
+(28, 31, NULL, NULL),
+(29, 31, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -92,14 +86,30 @@ CREATE TABLE `squadra` (
 --
 
 INSERT INTO `squadra` (`IDSquadra`, `IDTorneo`, `Nome`) VALUES
-(1, 23, '1'),
-(1, 24, 'sdrht'),
-(2, 23, '2'),
-(2, 24, 'szdfg'),
-(3, 23, '3'),
-(3, 24, 'aedrfg'),
-(4, 23, '4'),
-(4, 24, 'azsdrgt');
+(1, 26, '1'),
+(1, 27, '1'),
+(1, 28, '1'),
+(1, 29, '12'),
+(1, 30, '1'),
+(1, 31, '1'),
+(2, 26, '2'),
+(2, 27, '2'),
+(2, 28, '23'),
+(2, 29, '34'),
+(2, 30, '2'),
+(2, 31, '2'),
+(3, 26, '3'),
+(3, 27, '34'),
+(3, 28, '4'),
+(3, 29, '56'),
+(3, 30, '3'),
+(3, 31, '3'),
+(4, 26, '4'),
+(4, 27, '4'),
+(4, 28, '5'),
+(4, 29, '78'),
+(4, 30, '4'),
+(4, 31, '4');
 
 -- --------------------------------------------------------
 
@@ -139,9 +149,7 @@ CREATE TABLE `torneo` (
 --
 
 INSERT INTO `torneo` (`IDTorneo`, `FKTipo`, `Nome`, `DataCreazione`, `NomeGioco`, `IDAdmin`) VALUES
-(23, 1, 'Calcetto 5INB', '2018-05-21', 'Calcio', 2),
-(24, 1, 'sfghdsfghdfgh', '2018-05-21', 'dffhgdfgdhdgh', 2),
-(25, 1, 'rtyhrdh', '2018-05-21', 'dfghfdgh', 2);
+(31, 1, 'Calcetto 5INB', '2018-05-25', 'Calcio', 2);
 
 -- --------------------------------------------------------
 
@@ -216,12 +224,12 @@ ALTER TABLE `utente`
 -- AUTO_INCREMENT per la tabella `partita`
 --
 ALTER TABLE `partita`
-  MODIFY `IDPartita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `IDPartita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT per la tabella `squadra`
 --
 ALTER TABLE `squadra`
-  MODIFY `IDSquadra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `IDSquadra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT per la tabella `tipo`
 --
@@ -231,7 +239,7 @@ ALTER TABLE `tipo`
 -- AUTO_INCREMENT per la tabella `torneo`
 --
 ALTER TABLE `torneo`
-  MODIFY `IDTorneo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `IDTorneo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT per la tabella `utente`
 --
@@ -256,17 +264,11 @@ ALTER TABLE `partita`
   ADD CONSTRAINT `partita_ibfk_2` FOREIGN KEY (`IDTorneo`) REFERENCES `torneo` (`IDTorneo`);
 
 --
--- Limiti per la tabella `squadra`
---
-ALTER TABLE `squadra`
-  ADD CONSTRAINT `squadra_ibfk_1` FOREIGN KEY (`IDTorneo`) REFERENCES `torneo` (`IDTorneo`);
-
---
 -- Limiti per la tabella `torneo`
 --
 ALTER TABLE `torneo`
-  ADD CONSTRAINT `torneo_ibfk_1` FOREIGN KEY (`FKTipo`) REFERENCES `tipo` (`IDTipo`),
-  ADD CONSTRAINT `torneo_ibfk_2` FOREIGN KEY (`IDAdmin`) REFERENCES `utente` (`IDUtente`);
+  ADD CONSTRAINT `torneo_ibfk_1` FOREIGN KEY (`FKTipo`) REFERENCES `tipo` (`IDTipo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `torneo_ibfk_2` FOREIGN KEY (`IDAdmin`) REFERENCES `utente` (`IDUtente`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
