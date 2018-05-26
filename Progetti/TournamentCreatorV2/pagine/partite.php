@@ -132,7 +132,7 @@
                         }
 
                         //stampo partite in una tabella con ordine Squadra1-Squadra2 Punteggio1-Punteggo2
-                        echo '<table align="center" border=1>'
+                        echo '<table align="center">'
                         . '<tr>'
                         . '<th>Partita</th>'
                         . '<th>Punteggio</th>'
@@ -154,7 +154,7 @@
                                     ?>
                                 </td>
                                 <td>
-                                    <a href="punteggio.php?IDPartita=<?php echo $partita["IDPartita"] ?>">
+                                    <a href="assegnaPunteggi.php?IDPartita=<?php echo $partita["IDPartita"] ?>">
                                         <?php
                                         if ($partita["PartitaConclusa"]) {
                                             echo 'Modifica punteggio';

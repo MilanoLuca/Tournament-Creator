@@ -3,12 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/TournamentCreatorV2/css/style.css</file>
+            <file>file:/C:/xampp/htdocs/TournamentCreatorV2/pagine/assegnaPunteggi.php</file>
+            <file>file:/C:/xampp/htdocs/TournamentCreatorV2/js/controlliform.js</file>
             <file>file:/C:/xampp/htdocs/TournamentCreatorV2/pagine/gestioneTorneo.php</file>
-            <file>file:/C:/xampp/htdocs/TournamentCreatorV2/pagine/MieiTornei.php</file>
-            <file>file:/C:/xampp/htdocs/TournamentCreatorV2/pagine/nuovoTorneo.php</file>
+            <file>file:/C:/xampp/htdocs/TournamentCreatorV2/pagine/inserimentoPunteggi.php</file>
             <file>file:/C:/xampp/htdocs/TournamentCreatorV2/pagine/partite.php</file>
-            <file>file:/C:/xampp/htdocs/TournamentCreatorV2/index.php</file>
         </group>
     </open-files>
 </project-private>

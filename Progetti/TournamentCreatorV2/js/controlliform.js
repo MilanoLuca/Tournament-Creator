@@ -23,3 +23,13 @@ function controllaNomi() {
 
     return validi;
 }
+
+function controlloPunteggi(){
+    var successo = true;
+    if(frmPunteggi.p1.value === frmPunteggi.p2.value){
+        successo = false;
+        alert("Non può verificarsi un pareggio");
+    }
+    
+    return successo;
+}
