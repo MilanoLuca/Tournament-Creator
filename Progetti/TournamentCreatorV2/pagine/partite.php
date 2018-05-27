@@ -3,8 +3,6 @@
         <meta charset="UTF-8">
         <title>Partite</title>
         <link rel="stylesheet" href="../css/style.css">
-        <?php
-        ?>
     </head>
     <body>
         <div class="wrapper fadeInDown">
@@ -17,24 +15,75 @@
                     } else {
                         include './connessione.php';
                         echo "<h1>Benvenuto, " . $_SESSION["user"] . "! </h1>";   //stampa il nome utente con il quale si è loggati
-                        //query che seleziona i dati di tutti i tornei appartenenti all'utente che si è loggato
-                        $query = "SELECT IDPartita FROM partita, torneo WHERE torneo.IDTorneo = " . $_SESSION["idTorneo"] . " AND torneo.IDTorneo = partita.IDTorneo";
+                        
+                        //seleziono la fase corrente del torneo
+                        $query = "SELECT FaseCorrente "
+                               . "FROM torneo "
+                               . "WHERE IDTorneo=" . $_SESSION["idTorneo"] . ";";
+                        //la query resituisceuna tabella con solo una riga con e una sola colonna "FaseCorrente"
+                        $result = mysqli_query($connesione, $query);
+                        $faseCorrente = mysqli_fetch_array($result)["FaseCorrente"];
+                        
+                        //Se tutte le partite hanno un punteggio assegnato e viene 
+                        //premuto il pulsante per passare alla prossima fase
+                        //viene effettuato passaggio alla prossima fase
+                        //(scontro tra le squadre vincitrici della fase precedente)
+                        $prossimaFase = FALSE;
+                        if(isset($_POST["prossimaFase"])){
+                            $faseCorrente++;
+                            $prossimaFase = TRUE;
+                            //aggiorno la fase del torneo
+                            $query = "UPDATE torneo "
+                                   . "SET FaseCorrente=$faseCorrente "
+                                   . "WHERE IDTorneo=" . $_SESSION["idTorneo"] . ";";
+                            mysqli_query($connesione, $query)
+                                    or die("Passaggio alla fase successiva fallito");
+                        }
+                        
+                        //query che seleziona i dati di tutte le partite del torneo selezionato
+                        $query = "SELECT IDPartita "
+                               . "FROM partita, torneo "
+                               . "WHERE torneo.IDTorneo = " . $_SESSION["idTorneo"] . " AND "
+                               . "torneo.IDTorneo = partita.IDTorneo AND "
+                               . "partita.Fase = torneo.FaseCorrente";
+
                         $result = mysqli_query($connesione, $query)
-                                or die("query sbagliata");
+                                or die("Selezione partite fallita");
                         /*
-                         * LISTA DELLE COSE DA FARE
                          * 
-                         * - se non c'e nessuna partita creare partite distribuendo casualmente gli id  le squadre
+                         * - se non c'e nessuna partita creare partite distribuendo casualmente gli id le squadre
                          * - se esistono ancora delle partite a cui manca idvincitrice, stampare tutte le partite con il relativo punteggio se assegnato (e link per assegnare i punteggi)
                          * - quando tutte le partite hanno un vincitore creare le partite successive utilizzando gli id dei vincitori come nuovi id delle squadre
                          * 
                          */
 
                         if (mysqli_num_rows($result) == 0) {
-                            // echo "<br>Non hai partite<br><br>";
-                            $query = "SELECT IDSquadra, squadra.Nome FROM squadra , torneo WHERE torneo.IDTorneo = " . $_SESSION["idTorneo"] . " AND torneo.IDTorneo = squadra.IDTorneo";
+                            //se la fase corrente del torneo non ha ancora partite
+                            //vengono create le partite
+                            
+                            //seleziono le squadre del torneo che partecipano alle partite della fase corrente
+                            $query = "";
+                            if(!$prossimaFase){
+                                $query = "SELECT IDSquadra, squadra.Nome "
+                                       . "FROM squadra , torneo "
+                                       . "WHERE torneo.IDTorneo = " . $_SESSION["idTorneo"] . " AND "
+                                       . "torneo.IDTorneo = squadra.IDTorneo AND "
+                                       . "partita.Fase = $faseCorrente";
+                            }
+                            else {
+                                //se è avvenuto il passaggio alla prossima fase 
+                                //seleziono le squadre vincitrici della fase precedente 
+                                $query = "SELECT IDSquadra, squadra.Nome "
+                                       . "FROM squadra, partita "
+                                       . "WHERE partita.IDTorneo = " . $_SESSION["idTorneo"] . " AND "
+                                             . "partita.IDTorneo = squadra.IDTorneo "
+                                             . "AND partita.IDVincitrice = squadra.IDSquadra "
+                                             . "AND partita.Fase = " . ($faseCorrente-1) . ";";
+                            }
+                            
+                           echo $query;
                             $result = mysqli_query($connesione, $query)
-                                    or die("query sbagliata");
+                                    or die("Selezione squadre fallita");
 
                             //copio le squadre in un array
                             $squadre = array();
@@ -49,7 +98,8 @@
 
                             for ($i = 0; $i < count($squadre); $i += 2) {
                                 //creo una nuova partita
-                                $query = "INSERT INTO partita (IDTorneo) VALUES (" . $_SESSION["idTorneo"] . ");";
+                                $query = "INSERT INTO partita (IDTorneo,Fase) "
+                                       . "VALUES (" . $_SESSION["idTorneo"] . ",$faseCorrente);";
                                 mysqli_query($connesione, $query)
                                         or die("Query creazione partite non è andata a buon fine");
                                 //visto che IDPartita è auto increment 
@@ -73,17 +123,18 @@
                         //visualizzazione partite
                         echo "<br>Partite del torneo:<br><br>";
                         //se esistono ancora delle partite a cui manca idvincitrice, 
-                        //stampare tutte le partite con il relativo punteggio se assegnato (e link per assegnare i punteggi)
-                        $query = "SELECT partita.IDPartita, s1.Nome, g1.Punteggio "
-                                . "FROM partita, gioca g1, squadra s1 "
-                                . "WHERE partita.IDPartita=g1.FKPartita AND "
-                                . "s1.IDSquadra=g1.FKSquadra AND "
-                                . "s1.IDTorneo=" . $_SESSION["idTorneo"] . " AND "
-                                . "partita.IDTorneo=" . $_SESSION["idTorneo"] . ";";
-
+                        //vengono stampate tutte le partite con il relativo punteggio se assegnato (e link per assegnare i punteggi)
+                        $query = "SELECT partita.IDPartita, squadra.Nome, Punteggio "
+                               . "FROM partita, gioca, squadra "
+                               . "WHERE partita.IDPartita=gioca.FKPartita AND "
+                                     . "squadra.IDSquadra=gioca.FKSquadra AND "
+                                     . "squadra.IDTorneo=" . $_SESSION["idTorneo"] . " AND "
+                                     . "partita.IDTorneo=" . $_SESSION["idTorneo"] . " AND "
+                                     . "partita.Fase = $faseCorrente;";
                         $result = mysqli_query($connesione, $query);
                         $arrayPunteggi = array();
                         $i = 0;
+                        
                         //copio la tabella risultante dalla query in un array
                         while ($row = mysqli_fetch_array($result)) {
                             $arrayPunteggi[$i] = array("IDPartita" => $row["IDPartita"],
@@ -91,7 +142,8 @@
                                 "Punteggio" => $row["Punteggio"]);
                             $i++;
                         }
-                        //per ogni partita creo un array del tipo: IDPartita, Squadra1, Punteggio1, Squadra2, Punteggio2
+                        
+                        //per ogni partita creo un array associativo con chiavi: (IDPartita, Squadra1, Punteggio1, Squadra2, Punteggio2)
                         $partite = array();
                         $i = 0;
                         $k = 0;

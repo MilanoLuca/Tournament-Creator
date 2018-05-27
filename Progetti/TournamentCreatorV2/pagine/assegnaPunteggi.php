@@ -54,6 +54,12 @@ and open the template in the editor.
                     </td>
                 </tr>
             </table>
+            <!-- ID delle squadre -->
+            <input type="hidden" name="squadra1" value="<?php echo $squadra1["IDSquadra"];?>">
+            <input type="hidden" name="squadra2" value="<?php echo $squadra2["IDSquadra"];?>">
+            
+            <input type="hidden" name="idPartita" value="<?php echo $idPartita;?>">
+            
             <input type="submit" name="inserisciPunteggi" value="Modifica">
         </form>
         
