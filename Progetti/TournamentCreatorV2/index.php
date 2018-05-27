@@ -17,7 +17,7 @@
                         <h2>Registrazione</h2>
 
                         <div class="fadeIn first">
-                            <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />
+                            <img src="img/icon.svg" id="icon" alt="User Icon" />
                         </div>
 
                         <form action="pagine/signin.php" method="post">
@@ -39,7 +39,7 @@
                         <h2>Accesso</h2>
 
                         <div class="fadeIn first">
-                            <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />
+                            <img src="img/icon.svg" id="icon" alt="User Icon" />
                         </div>
                         <form name="login" method="POST" action="pagine/login.php">
                             <input type="text" name="user" class="fadeIn second" placeholder="Nome Utente" required>

@@ -80,7 +80,6 @@
                                              . "AND partita.Fase = " . ($faseCorrente-1) . ";";
                             }
                             
-                           echo $query;
                             $result = mysqli_query($connesione, $query)
                                     or die("Selezione squadre fallita");
 
