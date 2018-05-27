@@ -26,6 +26,12 @@ function controllaNomi() {
 
 function controlloPunteggi(){
     var successo = true;
+    
+    if(isNaN(frmPunteggi.p1.value) || isNaN(frmPunteggi.p2.value)){
+        successo = false;
+        alert("I punteggi devono essere numeri");
+    }
+    
     if(frmPunteggi.p1.value === frmPunteggi.p2.value){
         successo = false;
         alert("Non può verificarsi un pareggio");
