@@ -67,8 +67,7 @@
                                 $query = "SELECT IDSquadra, squadra.Nome "
                                        . "FROM squadra , torneo "
                                        . "WHERE torneo.IDTorneo = " . $_SESSION["idTorneo"] . " AND "
-                                       . "torneo.IDTorneo = squadra.IDTorneo AND "
-                                       . "partita.Fase = $faseCorrente";
+                                       . "torneo.IDTorneo = squadra.IDTorneo;";
                             }
                             else {
                                 //se è avvenuto il passaggio alla prossima fase 
