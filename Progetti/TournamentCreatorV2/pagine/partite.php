@@ -12,9 +12,11 @@
                     session_start();
                     if (!isset($_SESSION["id"])) {
                         header("Location: ..\index.php ");
-                    } else {
+                    } 
+                    else {
                         include './connessione.php';
-                        echo "<h1>Benvenuto, " . $_SESSION["user"] . "! </h1>";   //stampa il nome utente con il quale si è loggati
+                        //stampa il nome utente con il quale si è loggati
+                        echo "<h1>Benvenuto, " . $_SESSION["user"] . "! </h1>";   
                         
                         //seleziono la fase corrente del torneo
                         $query = "SELECT FaseCorrente "
@@ -74,9 +76,10 @@
                                 or die("Selezione partite fallita");
                         /*
                          * 
-                         * - se non c'e nessuna partita creare partite distribuendo casualmente gli id le squadre
-                         * - se esistono ancora delle partite a cui manca idvincitrice, stampare tutte le partite con il relativo punteggio se assegnato (e link per assegnare i punteggi)
-                         * - quando tutte le partite hanno un vincitore creare le partite successive utilizzando gli id dei vincitori come nuovi id delle squadre
+                         * - se non c'e nessuna partita creare partite
+                         * - se esistono ancora delle partite a cui manca una vincitrice, stampare tutte le partite con il relativo punteggio se assegnato (e link per assegnare i punteggi)
+                         * - quando tutte le partite hanno un vincitore mostrare un pulsante per passare alla fase successiva 
+                         *   per creare le partite successive utilizzando gli id delle squadre vincitrici come nuovi id delle squadre
                          * 
                          */
 
@@ -115,8 +118,7 @@
                                 $i++;
                             }
 
-                            //query per creazione partite
-
+                            //creazione partite
                             for ($i = 0; $i < count($squadre); $i += 2) {
                                 //creo una nuova partita
                                 $query = "INSERT INTO partita (IDTorneo,Fase) "
@@ -144,7 +146,8 @@
                         //visualizzazione partite
                         echo "<br>Partite del torneo:<br><br>";
                         //se esistono ancora delle partite a cui manca idvincitrice, 
-                        //vengono stampate tutte le partite con il relativo punteggio se assegnato (e link per assegnare i punteggi)
+                        //vengono stampate tutte le partite con il relativo punteggio 
+                        //se assegnato (e link per assegnare/modificare i punteggi)
                         $query = "SELECT partita.IDPartita, squadra.Nome, Punteggio "
                                . "FROM partita, gioca, squadra "
                                . "WHERE partita.IDPartita=gioca.FKPartita AND "
@@ -164,7 +167,8 @@
                             $i++;
                         }
                         
-                        //per ogni partita creo un array associativo con chiavi: (IDPartita, Squadra1, Punteggio1, Squadra2, Punteggio2)
+                        //per ogni partita creo un array associativo con chiavi: 
+                        //(IDPartita, Squadra1, Punteggio1, Squadra2, Punteggio2)
                         $partite = array();
                         $i = 0;
                         $k = 0;
@@ -246,7 +250,10 @@
 
 
                         //pulsante prossima fase
-                        $query = "SELECT partita.IDPartita FROM partita WHERE partita.IDVincitrice IS NULL AND partita.IDTorneo=" . $_SESSION["idTorneo"] . ";";
+                        $query = "SELECT partita.IDPartita "
+                               . "FROM partita "
+                               . "WHERE partita.IDVincitrice IS NULL AND "
+                                     . "partita.IDTorneo=" . $_SESSION["idTorneo"] . ";";
                         $result = mysqli_query($connesione, $query);
 
                         //mysqli_num_rows conta le righe della tabella risultante

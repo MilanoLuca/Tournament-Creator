@@ -3,6 +3,7 @@
         <meta charset="UTF-8">
         <title>Login</title>
         <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script src="js/controlliform.js" type="text/javascript"></script>
     </head>
     <body>
         <?php
@@ -20,10 +21,10 @@
                             <img src="img/icon.svg" id="icon" alt="User Icon" />
                         </div>
 
-                        <form action="pagine/signin.php" method="post">
+                        <form name="frmRegister" action="pagine/signin.php" method="post" onsubmit="return controlloPassword();">
                             <input type="text" name="user" class="fadeIn second" placeholder="Nome Utente" required>
                             <input type="password" name="pass" class="fadeIn third" placeholder="Password" required>
-                            <input type="password" name="pass" class="fadeIn third" placeholder="Conferma Password" required>
+                            <input type="password" name="confPass" class="fadeIn third" placeholder="Conferma Password" required>
                             <input type="submit" name="login" class="fadeIn fourth" value="Registrati">
                         </form>
 

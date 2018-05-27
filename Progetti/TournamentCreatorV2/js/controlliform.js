@@ -37,5 +37,20 @@ function controlloPunteggi(){
         alert("Non può verificarsi un pareggio");
     }
     
+    if(frmPunteggi.p1.value < 0 || frmPunteggi.p2.value < 0){
+        successo = false;
+        alert("I punteggi non possono essere negativi");
+    }
+    
     return successo;
+}
+
+function controlloPassword(){
+    var valida = true;
+    
+    if(frmRegister.pass.value !== frmRegister.confPass.value){
+        valida = false;
+        alert("La password non corrisponde");
+    }
+    return valida;
 }

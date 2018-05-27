@@ -25,14 +25,17 @@
                     $i = 1;
                     while ($i != $numSquadre + 1) {
                         //query di esempio per l'inserimento di una squadra NB Deve essere valorizzata
-                        $inserimentoSquadre = "INSERT INTO squadra(IDSquadra,IDTorneo, Nome) VALUES ('$i','$idTorneo' , '" . $_POST["squadra" . $i] . "')";
+                        $inserimentoSquadre = "INSERT INTO squadra(IDSquadra,IDTorneo, Nome) "
+                                            . "VALUES ('$i','$idTorneo' , '" . $_POST["squadra" . $i] . "');";
                         mysqli_query($connesione, $inserimentoSquadre);
                         $i++;
                     }
                     header("Location: partite.php");
                 }
 
-                $query = "SELECT * from torneo, squadra WHERE $idTorneo=squadra.IDTorneo"; //seleziona tutte le squadre del toreno
+                $query = "SELECT * "
+                       . "FROM torneo, squadra "
+                       . "WHERE $idTorneo=squadra.IDTorneo"; //seleziona tutte le squadre del toreno
 
 
                 $result = mysqli_query($connesione, $query);
