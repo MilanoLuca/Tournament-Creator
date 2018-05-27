@@ -40,6 +40,29 @@
                                     or die("Passaggio alla fase successiva fallito");
                         }
                         
+                        //controllo vincitrice
+                        //se il risultato della query è una sola riga, questa contiene la squadra vincitrice del torneo
+                        $query = "SELECT IDSquadra, squadra.Nome "
+                                   . "FROM squadra, partita "
+                                   . "WHERE partita.IDTorneo = " . $_SESSION["idTorneo"] . " AND "
+                                         . "partita.IDTorneo = squadra.IDTorneo "
+                                         . "AND partita.IDVincitrice = squadra.IDSquadra "
+                                         . "AND partita.Fase = " . ($faseCorrente-1) . ";";
+
+                        $result = mysqli_query($connesione, $query)
+                                or die("Selezione squadre fallita");
+
+
+                        if(mysqli_num_rows($result) == 1){
+                            $squadraVincitrice = mysqli_fetch_array($result);
+
+                            echo "<br><h1>La squadra " . $squadraVincitrice["Nome"] . " ha vinto il torneo!</h1>";
+                            echo '<br><a href="MieiTornei.php">Torna indietro</a><br><br>';
+
+                            //non è necessario continuare
+                            die();
+                        }
+                        
                         //query che seleziona i dati di tutte le partite del torneo selezionato
                         $query = "SELECT IDPartita "
                                . "FROM partita, torneo "
@@ -181,7 +204,7 @@
                             $i++;
                         }
 
-                        //stampo partite in una tabella con ordine Squadra1-Squadra2 Punteggio1-Punteggo2
+                        //visualizzazione delle partite in una tabella con ordine Squadra1-Squadra2 Punteggio1-Punteggo2
                         echo '<table align="center">'
                         . '<tr>'
                         . '<th>Partita</th>'
