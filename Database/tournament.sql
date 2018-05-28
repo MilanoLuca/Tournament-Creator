@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
+-- version 4.8.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 27, 2018 at 01:31 PM
--- Server version: 10.1.21-MariaDB
--- PHP Version: 5.6.30
+-- Creato il: Mag 28, 2018 alle 10:34
+-- Versione del server: 10.1.31-MariaDB
+-- Versione PHP: 7.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -25,7 +27,7 @@ USE `tournament`;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `gioca`
+-- Struttura della tabella `gioca`
 --
 
 CREATE TABLE `gioca` (
@@ -36,22 +38,10 @@ CREATE TABLE `gioca` (
   `Punteggio` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `gioca`
---
-
-INSERT INTO `gioca` (`FKSquadra`, `IDTorneoSquadra`, `FKPartita`, `IDTorneoPartita`, `Punteggio`) VALUES
-(1, 31, 28, 31, 1),
-(2, 31, 28, 31, 7),
-(2, 31, 30, 31, 2),
-(3, 31, 29, 31, 12),
-(3, 31, 30, 31, 3),
-(4, 31, 29, 31, 3);
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `partita`
+-- Struttura della tabella `partita`
 --
 
 CREATE TABLE `partita` (
@@ -62,19 +52,10 @@ CREATE TABLE `partita` (
   `Fase` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `partita`
---
-
-INSERT INTO `partita` (`IDPartita`, `IDTorneo`, `IDVincitrice`, `IDTorneoVincitrice`, `Fase`) VALUES
-(28, 31, 2, 31, 1),
-(29, 31, 3, 31, 1),
-(30, 31, 3, 31, 2);
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `squadra`
+-- Struttura della tabella `squadra`
 --
 
 CREATE TABLE `squadra` (
@@ -83,40 +64,10 @@ CREATE TABLE `squadra` (
   `Nome` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `squadra`
---
-
-INSERT INTO `squadra` (`IDSquadra`, `IDTorneo`, `Nome`) VALUES
-(1, 26, '1'),
-(1, 27, '1'),
-(1, 28, '1'),
-(1, 29, '12'),
-(1, 30, '1'),
-(1, 31, '1'),
-(2, 26, '2'),
-(2, 27, '2'),
-(2, 28, '23'),
-(2, 29, '34'),
-(2, 30, '2'),
-(2, 31, '2'),
-(3, 26, '3'),
-(3, 27, '34'),
-(3, 28, '4'),
-(3, 29, '56'),
-(3, 30, '3'),
-(3, 31, '3'),
-(4, 26, '4'),
-(4, 27, '4'),
-(4, 28, '5'),
-(4, 29, '78'),
-(4, 30, '4'),
-(4, 31, '4');
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tipo`
+-- Struttura della tabella `tipo`
 --
 
 CREATE TABLE `tipo` (
@@ -125,7 +76,7 @@ CREATE TABLE `tipo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tipo`
+-- Dump dei dati per la tabella `tipo`
 --
 
 INSERT INTO `tipo` (`IDTipo`, `Nome`) VALUES
@@ -134,7 +85,7 @@ INSERT INTO `tipo` (`IDTipo`, `Nome`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `torneo`
+-- Struttura della tabella `torneo`
 --
 
 CREATE TABLE `torneo` (
@@ -148,16 +99,16 @@ CREATE TABLE `torneo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `torneo`
+-- Dump dei dati per la tabella `torneo`
 --
 
 INSERT INTO `torneo` (`IDTorneo`, `FKTipo`, `Nome`, `DataCreazione`, `NomeGioco`, `IDAdmin`, `FaseCorrente`) VALUES
-(31, 1, 'Calcetto 5INB', '2018-05-25', 'Calcio', 2, 2);
+(36, 1, 'Calcetto 5INB', '2018-05-28', 'Calcio', 4, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `utente`
+-- Struttura della tabella `utente`
 --
 
 CREATE TABLE `utente` (
@@ -167,25 +118,25 @@ CREATE TABLE `utente` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `utente`
+-- Dump dei dati per la tabella `utente`
 --
 
 INSERT INTO `utente` (`IDUtente`, `NomeUtente`, `Password`) VALUES
-(2, 'user', 'user');
+(4, 'Filippo', 'ciaociao');
 
 --
--- Indexes for dumped tables
+-- Indici per le tabelle scaricate
 --
 
 --
--- Indexes for table `gioca`
+-- Indici per le tabelle `gioca`
 --
 ALTER TABLE `gioca`
   ADD PRIMARY KEY (`FKSquadra`,`IDTorneoSquadra`,`FKPartita`,`IDTorneoPartita`),
   ADD KEY `NumeroPartita` (`FKPartita`,`IDTorneoPartita`);
 
 --
--- Indexes for table `partita`
+-- Indici per le tabelle `partita`
 --
 ALTER TABLE `partita`
   ADD PRIMARY KEY (`IDPartita`,`IDTorneo`),
@@ -193,20 +144,20 @@ ALTER TABLE `partita`
   ADD KEY `NumeroVincitrice` (`IDVincitrice`,`IDTorneoVincitrice`);
 
 --
--- Indexes for table `squadra`
+-- Indici per le tabelle `squadra`
 --
 ALTER TABLE `squadra`
   ADD PRIMARY KEY (`IDSquadra`,`IDTorneo`),
   ADD KEY `IDTorneo` (`IDTorneo`);
 
 --
--- Indexes for table `tipo`
+-- Indici per le tabelle `tipo`
 --
 ALTER TABLE `tipo`
   ADD PRIMARY KEY (`IDTipo`);
 
 --
--- Indexes for table `torneo`
+-- Indici per le tabelle `torneo`
 --
 ALTER TABLE `torneo`
   ADD PRIMARY KEY (`IDTorneo`),
@@ -214,64 +165,70 @@ ALTER TABLE `torneo`
   ADD KEY `IDAdmin` (`IDAdmin`);
 
 --
--- Indexes for table `utente`
+-- Indici per le tabelle `utente`
 --
 ALTER TABLE `utente`
   ADD PRIMARY KEY (`IDUtente`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT per le tabelle scaricate
 --
 
 --
--- AUTO_INCREMENT for table `partita`
+-- AUTO_INCREMENT per la tabella `partita`
 --
 ALTER TABLE `partita`
-  MODIFY `IDPartita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `IDPartita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+
 --
--- AUTO_INCREMENT for table `squadra`
+-- AUTO_INCREMENT per la tabella `squadra`
 --
 ALTER TABLE `squadra`
-  MODIFY `IDSquadra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `IDSquadra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
--- AUTO_INCREMENT for table `tipo`
+-- AUTO_INCREMENT per la tabella `tipo`
 --
 ALTER TABLE `tipo`
   MODIFY `IDTipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
--- AUTO_INCREMENT for table `torneo`
+-- AUTO_INCREMENT per la tabella `torneo`
 --
 ALTER TABLE `torneo`
-  MODIFY `IDTorneo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `IDTorneo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
 --
--- AUTO_INCREMENT for table `utente`
+-- AUTO_INCREMENT per la tabella `utente`
 --
 ALTER TABLE `utente`
-  MODIFY `IDUtente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `IDUtente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
--- Constraints for dumped tables
+-- Limiti per le tabelle scaricate
 --
 
 --
--- Constraints for table `gioca`
+-- Limiti per la tabella `gioca`
 --
 ALTER TABLE `gioca`
   ADD CONSTRAINT `gioca_ibfk_2` FOREIGN KEY (`FKSquadra`,`IDTorneoSquadra`) REFERENCES `squadra` (`IDSquadra`, `IDTorneo`),
   ADD CONSTRAINT `gioca_ibfk_3` FOREIGN KEY (`FKPartita`,`IDTorneoPartita`) REFERENCES `partita` (`IDPartita`, `IDTorneo`);
 
 --
--- Constraints for table `partita`
+-- Limiti per la tabella `partita`
 --
 ALTER TABLE `partita`
   ADD CONSTRAINT `partita_ibfk_1` FOREIGN KEY (`IDVincitrice`,`IDTorneoVincitrice`) REFERENCES `squadra` (`IDSquadra`, `IDTorneo`),
   ADD CONSTRAINT `partita_ibfk_2` FOREIGN KEY (`IDTorneo`) REFERENCES `torneo` (`IDTorneo`);
 
 --
--- Constraints for table `torneo`
+-- Limiti per la tabella `torneo`
 --
 ALTER TABLE `torneo`
   ADD CONSTRAINT `torneo_ibfk_1` FOREIGN KEY (`FKTipo`) REFERENCES `tipo` (`IDTipo`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `torneo_ibfk_2` FOREIGN KEY (`IDAdmin`) REFERENCES `utente` (`IDUtente`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

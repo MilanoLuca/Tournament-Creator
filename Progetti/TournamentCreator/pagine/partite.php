@@ -57,7 +57,7 @@
                         if (mysqli_num_rows($result) == 1) {
                             $squadraVincitrice = mysqli_fetch_array($result);
 
-                            echo "<br><h1>La squadra " . $squadraVincitrice["Nome"] . " ha vinto il torneo!</h1>";
+                            echo "<br><h1>La squadra '" . $squadraVincitrice["Nome"] . "' ha vinto il torneo!</h1>";
                             echo '<br><a href="MieiTornei.php">Torna indietro</a><br><br>';
 
                             //non è necessario continuare

@@ -39,7 +39,7 @@ and open the template in the editor.
                         ?>
                     <h1>Assegnazione punteggi</h1><br><br>
                         <form name="frmPunteggi" action="inserimentoPunteggi.php" method="POST" onsubmit="return controlloPunteggi();">
-                            <table align="center" border="1">
+                            <table align="center" >
                                 <tr>
                                     <th>Nome squadra</th>
                                     <th>Punteggio</th>
@@ -62,7 +62,7 @@ and open the template in the editor.
                             <input type="hidden" name="squadra2" value="<?php echo $squadra2["IDSquadra"]; ?>">
 
                             <input type="hidden" name="idPartita" value="<?php echo $idPartita; ?>">
-
+                            <br>
                             <input type="submit" name="inserisciPunteggi" value="Modifica">
                         </form>
 
