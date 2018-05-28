@@ -24,31 +24,31 @@ function controllaNomi() {
     return validi;
 }
 
-function controlloPunteggi(){
+function controlloPunteggi() {
     var successo = true;
-    
-    if(isNaN(frmPunteggi.p1.value) || isNaN(frmPunteggi.p2.value)){
+
+    if (isNaN(frmPunteggi.p1.value) || isNaN(frmPunteggi.p2.value)) {
         successo = false;
         alert("I punteggi devono essere numeri");
     }
-    
-    if(frmPunteggi.p1.value === frmPunteggi.p2.value){
+
+    if (frmPunteggi.p1.value === frmPunteggi.p2.value) {
         successo = false;
         alert("Non può verificarsi un pareggio");
     }
-    
-    if(frmPunteggi.p1.value < 0 || frmPunteggi.p2.value < 0){
+
+    if (frmPunteggi.p1.value < 0 || frmPunteggi.p2.value < 0) {
         successo = false;
         alert("I punteggi non possono essere negativi");
     }
-    
+
     return successo;
 }
 
-function controlloPassword(){
+function controlloPassword() {
     var valida = true;
-    
-    if(frmRegister.pass.value !== frmRegister.confPass.value){
+
+    if (frmRegister.pass.value !== frmRegister.confPass.value) {
         valida = false;
         alert("La password non corrisponde");
     }

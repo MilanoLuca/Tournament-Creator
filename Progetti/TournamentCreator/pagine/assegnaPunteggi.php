@@ -11,8 +11,8 @@ and open the template in the editor.
         <link rel="stylesheet" href="../css/style.css">
         <script src="../js/controlliform.js" type="text/javascript"></script>
         <?php
-            include 'connessione.php';
-            session_start();
+        include 'connessione.php';
+        session_start();
         ?>
     </head>
     <body>
@@ -20,56 +20,54 @@ and open the template in the editor.
             <div id="formContent">
                 <div class="fadeIn first">
                     <?php
-                        if(isset($_GET["IDPartita"])){
-                            $idPartita = $_GET["IDPartita"];
-                            //dal database seleziono i nomi e gli id delle squadre
-                            $query = "SELECT squadra.IDSquadra,squadra.Nome,gioca.Punteggio "
-                                   . "FROM squadra, gioca, partita "
-                                   . "WHERE squadra.IDSquadra = gioca.FKSquadra AND "
-                                         . "gioca.FKPartita = partita.IDPartita AND "
-                                         . "partita.IDPartita = " . $idPartita . " AND "
-                                         . "partita.IDTorneo = " . $_SESSION["idTorneo"] . " AND "
-                                         . "squadra.IDTorneo = " . $_SESSION["idTorneo"] . ";";
+                    if (isset($_GET["IDPartita"])) {
+                        $idPartita = $_GET["IDPartita"];
+                        //dal database seleziono i nomi e gli id delle squadre
+                        $query = "SELECT squadra.IDSquadra,squadra.Nome,gioca.Punteggio "
+                                . "FROM squadra, gioca, partita "
+                                . "WHERE squadra.IDSquadra = gioca.FKSquadra AND "
+                                . "gioca.FKPartita = partita.IDPartita AND "
+                                . "partita.IDPartita = " . $idPartita . " AND "
+                                . "partita.IDTorneo = " . $_SESSION["idTorneo"] . " AND "
+                                . "squadra.IDTorneo = " . $_SESSION["idTorneo"] . ";";
 
-                            $result = mysqli_query($connesione, $query)
-                                    or die("Query sbagliata");
+                        $result = mysqli_query($connesione, $query)
+                                or die("Query sbagliata");
 
-                            $squadra1 = mysqli_fetch_array($result);
-                            $squadra2 = mysqli_fetch_array($result);
+                        $squadra1 = mysqli_fetch_array($result);
+                        $squadra2 = mysqli_fetch_array($result);
+                        ?>
+                    <h1>Assegnazione punteggi</h1><br><br>
+                        <form name="frmPunteggi" action="inserimentoPunteggi.php" method="POST" onsubmit="return controlloPunteggi();">
+                            <table align="center" border="1">
+                                <tr>
+                                    <th>Nome squadra</th>
+                                    <th>Punteggio</th>
+                                </tr>
+                                <tr>
+                                    <td><?php echo $squadra1["Nome"]; ?></td>
+                                    <td>
+                                        <input type="text" name="p1" value="<?php echo $squadra1["Punteggio"]; ?>" class="fadeIn second" required="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><?php echo $squadra2["Nome"]; ?></td>
+                                    <td>
+                                        <input type="text" name="p2" value="<?php echo $squadra2["Punteggio"]; ?>" class="fadeIn third" required="">
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- ID delle squadre -->
+                            <input type="hidden" name="squadra1" value="<?php echo $squadra1["IDSquadra"]; ?>">
+                            <input type="hidden" name="squadra2" value="<?php echo $squadra2["IDSquadra"]; ?>">
 
-                    ?>
+                            <input type="hidden" name="idPartita" value="<?php echo $idPartita; ?>">
 
-                    <form name="frmPunteggi" action="inserimentoPunteggi.php" method="POST" onsubmit="return controlloPunteggi();">
-                        <table align="center">
-                            <tr>
-                                <th>Nome squadra</th>
-                                <th>Punteggio</th>
-                            </tr>
-                            <tr>
-                                <td><?php echo $squadra1["Nome"];?></td>
-                                <td>
-                                    <input type="text" name="p1" value="<?php echo $squadra1["Punteggio"];?>" class="fadeIn second" required="">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><?php echo $squadra2["Nome"];?></td>
-                                <td>
-                                    <input type="text" name="p2" value="<?php echo $squadra2["Punteggio"];?>" class="fadeIn third" required="">
-                                </td>
-                            </tr>
-                        </table>
-                        <!-- ID delle squadre -->
-                        <input type="hidden" name="squadra1" value="<?php echo $squadra1["IDSquadra"];?>">
-                        <input type="hidden" name="squadra2" value="<?php echo $squadra2["IDSquadra"];?>">
+                            <input type="submit" name="inserisciPunteggi" value="Modifica">
+                        </form>
 
-                        <input type="hidden" name="idPartita" value="<?php echo $idPartita;?>">
-
-                        <input type="submit" name="inserisciPunteggi" value="Modifica">
-                    </form>
-
-                    <?php
-
-                        }
+                        <?php
+                    }
                     ?>
                 </div>
             </div>

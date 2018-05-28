@@ -9,15 +9,14 @@
         session_start();
         if (!isset($_SESSION["id"])) {
             header("Location: ..\index.php ");
-        } 
-        else {
+        } else {
             include './connessione.php';
             //se è stato cliccato il pulsante per l'immisisione viene inserito nel database 
             //un nuovo torneo con i dqati inseriti nel form la data corrente 
             //e come admin l'id con cui si è loggata la sessione
-            if (isset($_POST["aggiungi"])) {  
+            if (isset($_POST["aggiungi"])) {
                 $query = "INSERT INTO torneo(FKTipo, Nome, DataCreazione, NomeGioco, IDAdmin) "
-                       . "VALUES ('1','" . $_POST["nome"] . "',CURRENT_DATE,'" . $_POST["gioco"] . "','" . $_SESSION["id"] . "')";
+                        . "VALUES ('1','" . $_POST["nome"] . "',CURRENT_DATE,'" . $_POST["gioco"] . "','" . $_SESSION["id"] . "')";
                 echo $query;
                 mysqli_query($connesione, $query)
                         or die("jadsgfkhwsa");
